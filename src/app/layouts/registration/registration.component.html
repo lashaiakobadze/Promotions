@@ -1,172 +1,207 @@
-<div class="row">
-  <div class="col-xs-12 col-md-6 col-md-offset-3">
+<mat-sidenav-container>
+  <mat-sidenav-content>
     <form [formGroup]="registerForm">
-      <div class="form-group">
-        <label for="firstName">{{ "First name" | translate }}</label>
+      <!-- First Name -->
+      <mat-form-field class="example-full-width">
         <input
+          matInput
+          placeholder="First Name"
           type="text"
-          class="form-control"
           name="firstName"
           formControlName="firstName"
         />
-        <p
-          class="required"
-          *ngIf="get('firstName').invalid && get('firstName').touched"
-        >
+        <!-- error -->
+        <mat-error *ngIf="get('firstName').invalid && get('firstName').touched">
           <ng-container *ngFor="let errorMessage of errors('firstName')">
             <span *ngIf="errorMessage !== true">{{ errorMessage }}</span>
           </ng-container>
-        </p>
-      </div>
+        </mat-error>
+      </mat-form-field>
 
-      <div class="form-group">
-        <label for="lastName">{{ "Last name" | translate }}</label>
-        <input type="text" class="form-control" formControlName="lastName" />
-        <p
-          class="required"
-          *ngIf="get('lastName').invalid && get('lastName').touched"
-        >
+      <!-- Last Name -->
+      <mat-form-field class="example-full-width">
+        <input
+          matInput
+          placeholder="Last Name"
+          type="text"
+          name="lastName"
+          formControlName="lastName"
+        />
+        <!-- error -->
+        <mat-error *ngIf="get('lastName').invalid && get('lastName').touched">
           <ng-container *ngFor="let errorMessage of errors('lastName')">
             <span *ngIf="errorMessage !== true">{{ errorMessage }}</span>
           </ng-container>
-        </p>
-      </div>
+        </mat-error>
+      </mat-form-field>
 
-      <div class="form-group">
-        <label for="gender">{{ "Gender" | translate }}</label>
-        <select formControlName="gender" class="form-control">
-          <option>male</option>
-          <option>female</option>
-        </select>
-        <p
-          class="required"
-          *ngIf="get('gender').invalid && get('gender').touched"
-        >
+      <!-- Gender -->
+      <div class="misc-bottom-padding">
+        <mat-label>Gender:</mat-label>
+        <mat-radio-group aria-label="Select an option" formControlName="gender">
+          <mat-radio-button value="male">Male</mat-radio-button>
+          <mat-radio-button value="female">Female</mat-radio-button>
+        </mat-radio-group>
+        <!-- error -->
+        <!-- ToDo: Delete or make valid error -->
+        <!-- <mat-error *ngIf="get('gender').invalid && get('gender').touched">
           <ng-container *ngFor="let errorMessage of errors('gender')">
             <span *ngIf="errorMessage !== true">{{ errorMessage }}</span>
           </ng-container>
-        </p>
+        </mat-error> -->
       </div>
 
-      <div class="form-group">
-        <label for="personalNumber">{{
-          "Personal ID number" | translate
-        }}</label>
+      <!-- Personal Id Number -->
+      <mat-form-field class="example-full-width">
         <input
-          type="text"
-          class="form-control"
+          matInput
+          placeholder="Personal Id Number"
+          name="personalNumber"
           formControlName="personalNumber"
         />
-        <p
-          class="required"
+        <!-- error -->
+        <mat-error
           *ngIf="get('personalNumber').invalid && get('personalNumber').touched"
         >
           <ng-container *ngFor="let errorMessage of errors('personalNumber')">
             <span *ngIf="errorMessage !== true">{{ errorMessage }}</span>
           </ng-container>
-        </p>
-      </div>
+        </mat-error>
+      </mat-form-field>
 
-      <div class="form-group">
-        <label for="phone">{{ "Phone number" | translate }}</label>
-        <input type="tel" class="form-control" formControlName="phone" />
-        <p
-          class="required"
-          *ngIf="get('phone').invalid && get('phone').touched"
-        >
+      <!-- Phone -->
+      <mat-form-field class="example-full-width">
+        <input
+          matInput
+          placeholder="Phone"
+          type="tel"
+          name="phone"
+          formControlName="phone"
+        />
+        <!-- error -->
+        <mat-error *ngIf="get('phone').invalid && get('phone').touched">
           <ng-container *ngFor="let errorMessage of errors('phone')">
             <span *ngIf="errorMessage !== true">{{ errorMessage }}</span>
           </ng-container>
-        </p>
-      </div>
+        </mat-error>
+      </mat-form-field>
 
-      <div class="form-group">
-        <label for="address">{{ "Address" | translate }}</label>
+      <!-- Address -->
+      <mat-form-field class="example-full-width">
         <input
+          matInput
+          placeholder="Address"
           type="text"
-          class="form-control"
           name="address"
           formControlName="address"
         />
-        <p
-          class="required"
-          *ngIf="get('address').invalid && get('address').touched"
-        >
+        <!-- error -->
+        <mat-error *ngIf="get('address').invalid && get('address').touched">
           <ng-container *ngFor="let errorMessage of errors('address')">
             <span *ngIf="errorMessage !== true">{{ errorMessage }}</span>
           </ng-container>
-        </p>
-      </div>
+        </mat-error>
+      </mat-form-field>
 
-      <div class="form-group">
-        <label for="country">{{ "Country" | translate }}</label>
+      <!-- Country -->
+      <mat-form-field class="example-full-width">
         <input
+          matInput
+          placeholder="Country"
           type="text"
-          class="form-control"
           name="country"
           formControlName="country"
         />
-        <p
-          class="required"
-          *ngIf="get('country').invalid && get('country').touched"
-        >
+        <!-- error -->
+        <mat-error *ngIf="get('country').invalid && get('country').touched">
           <ng-container *ngFor="let errorMessage of errors('country')">
             <span *ngIf="errorMessage !== true">{{ errorMessage }}</span>
           </ng-container>
-        </p>
-      </div>
+        </mat-error>
+      </mat-form-field>
 
-      <div class="form-group">
-        <label for="city">{{ "city" | translate }}</label>
+      <!-- City -->
+      <mat-form-field class="example-full-width">
         <input
+          matInput
+          placeholder="City"
           type="text"
-          class="form-control"
           name="city"
           formControlName="city"
         />
-        <p class="required" *ngIf="get('city').invalid && get('city').touched">
+        <!-- error -->
+        <mat-error *ngIf="get('city').invalid && get('city').touched">
           <ng-container *ngFor="let errorMessage of errors('city')">
             <span *ngIf="errorMessage !== true">{{ errorMessage }}</span>
           </ng-container>
-        </p>
-      </div>
+        </mat-error>
+      </mat-form-field>
 
-      <div class="form-group">
-        <label for="email">{{ "Email" | translate }}</label>
-        <input type="email" class="form-control" formControlName="email" />
-        <p
-          class="required"
-          *ngIf="get('email').invalid && get('email').touched"
-        >
+      <!-- Email -->
+      <mat-form-field class="example-full-width">
+        <input
+          matInput
+          placeholder="Email"
+          type="email"
+          name="email"
+          formControlName="email"
+        />
+        <!-- error -->
+        <mat-error *ngIf="get('email').invalid && get('email').touched">
           <ng-container *ngFor="let errorMessage of errors('email')">
             <span *ngIf="errorMessage !== true">{{ errorMessage }}</span>
           </ng-container>
-        </p>
-      </div>
+        </mat-error>
+      </mat-form-field>
 
-      <div class="form-control">
-        <label for="image" class="form-label">image</label>
-        <img
-          width="100px"
-          height="100px"
-          class="panel-img"
-          [src]="selectedFile?.src || BASE_URL + registrationForm?.imageUrl"
-          [alt]="registrationForm?.imageUrl"
+      <!-- Image -->
+      <mat-form-field class="example-full-width">
+        <div class="example-flex-container">
+          <img
+            *ngIf="selectedFile?.src"
+            width="100px"
+            height="100px"
+            class="panel-img"
+            [src]="selectedFile?.src || BASE_URL + registrationForm?.imageUrl"
+            [alt]="registrationForm?.imageUrl"
+          />
+          <div class="example-button-container">
+            <button
+              *ngIf="selectedFile?.src"
+              mat-fab
+              color="primary"
+              aria-label="Example icon button with a delete icon"
+              (click)="selectedFile = null"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+        <input
+          *ngIf="!selectedFile?.src"
+          matInput
+          [value]="
+            selectedFile?.src ? registrationForm?.imageUrl : 'Select Images'
+          "
         />
         <input
+          *ngIf="!selectedFile?.src"
           #imageInput
           type="file"
-          class="input"
+          accept="image/*"
           name="files"
-          placeholder="Publication image"
+          placeholder="Image"
+          formControlName="files"
           (change)="processFile(imageInput)"
         />
-      </div>
+      </mat-form-field>
 
-      <div class="form-group">
+      <!-- Submit -->
+      <div class="button-wrapper">
         <button
+          mat-flat-button
+          color="primary"
           type="submit"
-          class="btn btn-success"
           [disabled]="!registerForm.valid"
           (click)="onUpdate()"
         >
@@ -174,5 +209,5 @@
         </button>
       </div>
     </form>
-  </div>
-</div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

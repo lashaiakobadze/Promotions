@@ -10,6 +10,8 @@ import { translateProviders } from './localization.module';
 import { RegistrationComponent } from './layouts/registration/registration.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AngularMaterialModule } from './material.module';
 
 @NgModule({
   declarations: [AppComponent, RegistrationComponent],
@@ -23,7 +25,9 @@ import { ReactiveFormsModule } from '@angular/forms';
       preload: true,
       path: `config/config.json`
     }),
-    TranslateModule.forRoot(translateProviders)
+    TranslateModule.forRoot(translateProviders),
+    BrowserAnimationsModule,
+    AngularMaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]
