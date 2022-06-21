@@ -1,0 +1,21 @@
+{
+  "environment": {
+    "domain": "http://zarzma.ge",
+    "api": {
+      "dev": {
+        "enable": true,
+        "path": "https://disease.sh"
+      },
+      "mock": {
+        "enable": false,
+        "path": "./mock_data"
+      }
+    }
+  },
+  "global": {
+    "lang": {
+      "default": "en",
+      "langs": ["ka", "en", "ru"]
+    }
+  }
+}

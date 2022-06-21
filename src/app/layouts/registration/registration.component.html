@@ -1,0 +1,178 @@
+<div class="row">
+  <div class="col-xs-12 col-md-6 col-md-offset-3">
+    <form [formGroup]="registerForm">
+      <div class="form-group">
+        <label for="firstName">{{ "First name" | translate }}</label>
+        <input
+          type="text"
+          class="form-control"
+          name="firstName"
+          formControlName="firstName"
+        />
+        <p
+          class="required"
+          *ngIf="get('firstName').invalid && get('firstName').touched"
+        >
+          <ng-container *ngFor="let errorMessage of errors('firstName')">
+            <span *ngIf="errorMessage !== true">{{ errorMessage }}</span>
+          </ng-container>
+        </p>
+      </div>
+
+      <div class="form-group">
+        <label for="lastName">{{ "Last name" | translate }}</label>
+        <input type="text" class="form-control" formControlName="lastName" />
+        <p
+          class="required"
+          *ngIf="get('lastName').invalid && get('lastName').touched"
+        >
+          <ng-container *ngFor="let errorMessage of errors('lastName')">
+            <span *ngIf="errorMessage !== true">{{ errorMessage }}</span>
+          </ng-container>
+        </p>
+      </div>
+
+      <div class="form-group">
+        <label for="gender">{{ "Gender" | translate }}</label>
+        <select formControlName="gender" class="form-control">
+          <option>male</option>
+          <option>female</option>
+        </select>
+        <p
+          class="required"
+          *ngIf="get('gender').invalid && get('gender').touched"
+        >
+          <ng-container *ngFor="let errorMessage of errors('gender')">
+            <span *ngIf="errorMessage !== true">{{ errorMessage }}</span>
+          </ng-container>
+        </p>
+      </div>
+
+      <div class="form-group">
+        <label for="personalNumber">{{
+          "Personal ID number" | translate
+        }}</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="personalNumber"
+        />
+        <p
+          class="required"
+          *ngIf="get('personalNumber').invalid && get('personalNumber').touched"
+        >
+          <ng-container *ngFor="let errorMessage of errors('personalNumber')">
+            <span *ngIf="errorMessage !== true">{{ errorMessage }}</span>
+          </ng-container>
+        </p>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">{{ "Phone number" | translate }}</label>
+        <input type="tel" class="form-control" formControlName="phone" />
+        <p
+          class="required"
+          *ngIf="get('phone').invalid && get('phone').touched"
+        >
+          <ng-container *ngFor="let errorMessage of errors('phone')">
+            <span *ngIf="errorMessage !== true">{{ errorMessage }}</span>
+          </ng-container>
+        </p>
+      </div>
+
+      <div class="form-group">
+        <label for="address">{{ "Address" | translate }}</label>
+        <input
+          type="text"
+          class="form-control"
+          name="address"
+          formControlName="address"
+        />
+        <p
+          class="required"
+          *ngIf="get('address').invalid && get('address').touched"
+        >
+          <ng-container *ngFor="let errorMessage of errors('address')">
+            <span *ngIf="errorMessage !== true">{{ errorMessage }}</span>
+          </ng-container>
+        </p>
+      </div>
+
+      <div class="form-group">
+        <label for="country">{{ "Country" | translate }}</label>
+        <input
+          type="text"
+          class="form-control"
+          name="country"
+          formControlName="country"
+        />
+        <p
+          class="required"
+          *ngIf="get('country').invalid && get('country').touched"
+        >
+          <ng-container *ngFor="let errorMessage of errors('country')">
+            <span *ngIf="errorMessage !== true">{{ errorMessage }}</span>
+          </ng-container>
+        </p>
+      </div>
+
+      <div class="form-group">
+        <label for="city">{{ "city" | translate }}</label>
+        <input
+          type="text"
+          class="form-control"
+          name="city"
+          formControlName="city"
+        />
+        <p class="required" *ngIf="get('city').invalid && get('city').touched">
+          <ng-container *ngFor="let errorMessage of errors('city')">
+            <span *ngIf="errorMessage !== true">{{ errorMessage }}</span>
+          </ng-container>
+        </p>
+      </div>
+
+      <div class="form-group">
+        <label for="email">{{ "Email" | translate }}</label>
+        <input type="email" class="form-control" formControlName="email" />
+        <p
+          class="required"
+          *ngIf="get('email').invalid && get('email').touched"
+        >
+          <ng-container *ngFor="let errorMessage of errors('email')">
+            <span *ngIf="errorMessage !== true">{{ errorMessage }}</span>
+          </ng-container>
+        </p>
+      </div>
+
+      <div class="form-control">
+        <label for="image" class="form-label">image</label>
+        <img
+          width="100px"
+          height="100px"
+          class="panel-img"
+          [src]="selectedFile?.src || BASE_URL + registrationForm?.imageUrl"
+          [alt]="registrationForm?.imageUrl"
+        />
+        <input
+          #imageInput
+          type="file"
+          class="input"
+          name="files"
+          placeholder="Publication image"
+          (change)="processFile(imageInput)"
+        />
+      </div>
+
+      <div class="form-group">
+        <button
+          type="submit"
+          class="btn btn-success"
+          [disabled]="!registerForm.valid"
+          (click)="onUpdate()"
+        >
+          {{ curRegister ? ("Update" | translate) : ("Register" | translate) }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
