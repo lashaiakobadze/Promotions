@@ -1,10 +1,10 @@
 {
   "environment": {
-    "domain": "http://zarzma.ge",
+    "domain": "http://promotions.bet",
     "api": {
       "dev": {
         "enable": true,
-        "path": "https://disease.sh"
+        "path": "http://localhost:3000/api"
       },
       "mock": {
         "enable": false,

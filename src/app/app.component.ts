@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+// import { Subscription } from "rxjs";
+
+import { AuthService } from './auth/auth.service';
 import { CoreConfig } from './core/config';
+// import { ErrorService } from "./error/error.service";
 
 @Component({
   selector: 'app-root',
@@ -7,13 +11,26 @@ import { CoreConfig } from './core/config';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'promotions';
+  // hasError = false;
+  // private errorSub: Subscription;
 
-  constructor(private coreConfig: CoreConfig) { }
+  constructor(
+    private authService: AuthService,
+    private coreConfig: CoreConfig // private errorService: ErrorService
+  ) {}
 
-  config = this.coreConfig.select(r => r.environment);
+  config = this.coreConfig.select((r) => r.environment);
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.authService.autoAuthUser();
+    // this.errorSub = this.errorService.getErrorListener().subscribe(
+    //   message => this.hasError = message !== null
+    // );
+
     console.log('this.config', this.config);
   }
+
+  // ngOnDestroy() {
+  //   this.errorSub.unsubscribe();
+  // }
 }

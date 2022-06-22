@@ -1,23 +1,38 @@
-import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgModule } from '@angular/core';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import { AppRoutingModule } from './app.routing';
-import { AppComponent } from './app.component';
+import { AngularMaterialModule } from './angular-material.module';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { CoreConfigModule } from './core/config/config.module';
 import { translateProviders } from './localization.module';
-import { RegistrationComponent } from './layouts/registration/registration.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AngularMaterialModule } from './material.module';
+
+import { AppRoutingModule } from './app.routing';
+import { CoreConfigModule } from './core/config/config.module';
+import { AuthInterceptor } from './auth/auth-interceptor';
+import { ErrorInterceptor } from './error-interceptor';
+import { ConsumerModule } from './posts/posts.module';
+
+import { AppComponent } from './app.component';
+import { HeaderComponent } from './layout/header/header.component';
+import { ErrorComponent } from './error/error.component';
+import { RegistrationComponent } from './modules/registration/registration.component';
 
 @NgModule({
-  declarations: [AppComponent, RegistrationComponent],
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    ErrorComponent,
+    RegistrationComponent
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
     ReactiveFormsModule,
     EffectsModule.forRoot([]),
     StoreModule.forRoot({}, {}),
@@ -26,10 +41,14 @@ import { AngularMaterialModule } from './material.module';
       path: `config/config.json`
     }),
     TranslateModule.forRoot(translateProviders),
-    BrowserAnimationsModule,
-    AngularMaterialModule
+    AngularMaterialModule,
+    ConsumerModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+  ],
+  bootstrap: [AppComponent],
+  entryComponents: [ErrorComponent]
 })
 export class AppModule {}
