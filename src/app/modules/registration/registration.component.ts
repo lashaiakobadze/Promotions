@@ -3,7 +3,7 @@ import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 
 import { AppValidators } from 'src/app/shared/validators/app-validators';
-import { Registration } from 'src/app/models/registration.model';
+import { Consumer } from 'src/app/models/consumer.model';
 import { ImageSnippet } from 'src/app/models/image-snippet.model';
 
 @Component({
@@ -17,9 +17,9 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   userId: string;
   profilesEmail: string;
-  registrationForm: Registration;
+  registrationForm: Consumer;
   validRegistration = false;
-  curRegister: Registration = null;
+  curRegister: Consumer = null;
 
   authSub: Subscription;
   registrationSub: Subscription;
@@ -72,7 +72,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     return this.registerForm.get(controlName);
   }
 
-  initForm(profile: Registration = null) {
+  initForm(profile: Consumer = null) {
     this.registerForm = new FormGroup({
       firstName: new FormControl(profile?.firstName || null, [
         AppValidators.required,
@@ -107,7 +107,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         AppValidators.email,
         AppValidators.cannotContainSpace
       ]),
-      files: new FormControl(profile?.imageUrl)
+      files: new FormControl(profile?.imagePath)
     });
   }
 

@@ -30,7 +30,6 @@ export class CoreConfig {
    */
   public select<T>(callbackfn: (value: Configuration) => T): T {
     try {
-      console.log(this.coreStore);
       return callbackfn(this.coreStore);
     } catch (error) {
       return null;

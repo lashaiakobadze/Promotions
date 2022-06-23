@@ -1,11 +1,15 @@
 <mat-toolbar color="primary">
-  <span>
+  <span class="navigation__item">
     <a routerLink="/">Promotions</a>
+  </span>
+
+  <span class="navigation__item">
+    <a routerLink="/consumer">Consumers</a>
   </span>
   <span class="spacer"></span>
   <ul>
     <li *ngIf="userIsAuthenticated">
-      <a mat-button routerLink="/create" routerLinkActive="mat-accent"
+      <a mat-button routerLink="consumer/create" routerLinkActive="mat-accent"
         >New Consumer</a
       >
     </li>

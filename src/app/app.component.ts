@@ -26,8 +26,6 @@ export class AppComponent implements OnInit {
     // this.errorSub = this.errorService.getErrorListener().subscribe(
     //   message => this.hasError = message !== null
     // );
-
-    console.log('this.config', this.config);
   }
 
   // ngOnDestroy() {

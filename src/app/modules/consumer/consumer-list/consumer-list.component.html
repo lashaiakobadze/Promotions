@@ -1,28 +1,62 @@
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<mat-accordion multi="true" *ngIf="posts.length > 0 && !isLoading">
-  <mat-expansion-panel *ngFor="let post of posts">
+<mat-accordion multi="true" *ngIf="consumers.length > 0 && !isLoading">
+  <mat-expansion-panel *ngFor="let consumer of consumers">
     <mat-expansion-panel-header>
-      {{ post.title }}
+      Consumer: {{ consumer.firstName + " " + consumer.lastName }}
     </mat-expansion-panel-header>
-    <div class="post-image">
-      <img [src]="post.imagePath" [alt]="post.title" />
-    </div>
-    <p>{{ post.content }}</p>
-    <mat-action-row *ngIf="userIsAuthenticated && userId === post.creator">
-      <a mat-button color="primary" [routerLink]="['/edit', post.id]">EDIT</a>
-      <button mat-button color="warn" (click)="onDelete(post.id)">
+
+    <mat-card class="example-card">
+      <mat-card>
+        <img
+          mat-card-xl-image
+          [src]="consumer.imagePath"
+          [alt]="consumer.firstName"
+        />
+      </mat-card>
+
+      <mat-card class="description-card">
+        <mat-panel-description>
+          Personal Number: {{ consumer.personalNumber }}
+        </mat-panel-description>
+
+        <mat-panel-description>
+          Gender: {{ consumer.gender }}
+        </mat-panel-description>
+
+        <mat-panel-description>
+          Email: {{ consumer.email }}
+        </mat-panel-description>
+
+        <mat-panel-description>
+          Phone: {{ consumer.phone }}
+        </mat-panel-description>
+
+        <mat-panel-description>
+          Address:
+          {{
+            consumer.country + " | " + consumer.city + " | " + consumer.address
+          }}
+        </mat-panel-description>
+      </mat-card>
+    </mat-card>
+
+    <mat-action-row *ngIf="userIsAuthenticated && userId === consumer.creator">
+      <a mat-button color="primary" [routerLink]="['edit', consumer.id]"
+        >EDIT</a
+      >
+      <button mat-button color="warn" (click)="onDelete(consumer.id)">
         DELETE
       </button>
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
 <mat-paginator
-  [length]="totalPosts"
-  [pageSize]="postsPerPage"
+  [length]="totalConsumers"
+  [pageSize]="consumersPerPage"
   [pageSizeOptions]="pageSizeOptions"
   (page)="onChangedPage($event)"
-  *ngIf="posts.length > 0"
+  *ngIf="consumers.length > 0"
 ></mat-paginator>
-<p class="info-text mat-body-1" *ngIf="posts.length <= 0 && !isLoading">
-  No posts added yet!
+<p class="info-text mat-body-1" *ngIf="consumers.length <= 0 && !isLoading">
+  No Consumers added yet!
 </p>

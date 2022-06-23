@@ -1,12 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { ConsumerService } from '../consumer.service';
-import { Consumer } from '../consumer.model';
+
 import { mimeType } from './mime-type.validator';
 import { AuthService } from 'src/app/auth/auth.service';
+import { AppValidators } from 'src/app/shared/validators/app-validators';
+import { Consumer } from 'src/app/models/consumer.model';
+import { CompileShallowModuleMetadata } from '@angular/compiler';
 
 @Component({
   selector: 'app-consumer-create',
@@ -14,18 +17,17 @@ import { AuthService } from 'src/app/auth/auth.service';
   styleUrls: ['./consumer-create.component.scss']
 })
 export class ConsumerCreateComponent implements OnInit, OnDestroy {
-  enteredTitle = '';
-  enteredContent = '';
-  post: Consumer;
+  consumer: Consumer;
   isLoading = false;
   form: FormGroup;
   imagePreview: string;
-  private mode = 'create';
-  private postId: string;
+  mode = 'create';
+  localFormError: string = '';
+  private id: string;
   private authStatusSub: Subscription;
 
   constructor(
-    public postsService: ConsumerService,
+    public consumersService: ConsumerService,
     public route: ActivatedRoute,
     private authService: AuthService
   ) {}
@@ -36,39 +38,40 @@ export class ConsumerCreateComponent implements OnInit, OnDestroy {
       .subscribe((authStatus) => {
         this.isLoading = false;
       });
-    this.form = new FormGroup({
-      title: new FormControl(null, {
-        validators: [Validators.required, Validators.minLength(3)]
-      }),
-      content: new FormControl(null, { validators: [Validators.required] }),
-      image: new FormControl(null, {
-        validators: [Validators.required],
-        asyncValidators: [mimeType]
-      })
-    });
+
+    this.initForm();
+
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      if (paramMap.has('postId')) {
+      if (paramMap.has('consumerId')) {
         this.mode = 'edit';
-        this.postId = paramMap.get('postId');
+        this.id = paramMap.get('consumerId');
         this.isLoading = true;
-        this.postsService.getPost(this.postId).subscribe((postData) => {
-          this.isLoading = false;
-          this.post = {
-            id: postData._id,
-            title: postData.title,
-            content: postData.content,
-            imagePath: postData.imagePath,
-            creator: postData.creator
-          };
-          this.form.setValue({
-            title: this.post.title,
-            content: this.post.content,
-            image: this.post.imagePath
+
+        this.consumersService
+          .getConsumer(this.id)
+          .subscribe((consumerData: any) => {
+            this.isLoading = false;
+
+            this.consumer = {
+              id: consumerData?._id,
+              firstName: consumerData?.firstName,
+              lastName: consumerData?.lastName,
+              gender: consumerData?.gender,
+              personalNumber: consumerData?.personalNumber,
+              phone: consumerData?.phone,
+              address: consumerData?.address,
+              country: consumerData?.country,
+              city: consumerData?.city,
+              email: consumerData?.email,
+              imagePath: consumerData?.imagePath,
+              creator: consumerData?.creator
+            };
+
+            this.initForm(this.consumer);
           });
-        });
       } else {
         this.mode = 'create';
-        this.postId = null;
+        this.id = null;
       }
     });
   }
@@ -86,24 +89,71 @@ export class ConsumerCreateComponent implements OnInit, OnDestroy {
 
   onSavePost() {
     if (this.form.invalid) {
+      this.localFormError =
+        'The form is not fully filled or the photo is missing';
       return;
     }
+    this.localFormError = '';
     this.isLoading = true;
     if (this.mode === 'create') {
-      this.postsService.addPost(
-        this.form.value.title,
-        this.form.value.content,
-        this.form.value.image
-      );
+      this.consumersService.addConsumer(this.form.value);
     } else {
-      this.postsService.updatePost(
-        this.postId,
-        this.form.value.title,
-        this.form.value.content,
-        this.form.value.image
-      );
+      this.consumersService.updateConsumer(this.form.value);
     }
     this.form.reset();
+  }
+
+  errors(controlName: string | (string | number)[]) {
+    return Object.values(this.get(controlName).errors);
+  }
+
+  get(controlName: string | (string | number)[]): AbstractControl {
+    return this.form.get(controlName);
+  }
+
+  initForm(consumer: Consumer = null): void {
+    this.form = new FormGroup({
+      id: new FormControl(consumer?.id || null),
+      firstName: new FormControl(consumer?.firstName || null, [
+        AppValidators.required,
+        AppValidators.minLength(2),
+        AppValidators.maxLength(50)
+      ]),
+      lastName: new FormControl(consumer?.lastName || null, [
+        AppValidators.required,
+        AppValidators.minLength(2),
+        AppValidators.maxLength(50)
+      ]),
+      gender: new FormControl(consumer?.gender || null, [
+        AppValidators.required
+      ]),
+      personalNumber: new FormControl(consumer?.personalNumber || null, [
+        AppValidators.required,
+        AppValidators.minLength(11),
+        AppValidators.maxLength(11)
+      ]),
+      phone: new FormControl(consumer?.phone || null, [
+        AppValidators.required,
+        AppValidators.minLength(9),
+        AppValidators.maxLength(9)
+      ]),
+      address: new FormControl(consumer?.address || null, [
+        AppValidators.required
+      ]),
+      country: new FormControl(consumer?.country || null, [
+        AppValidators.required
+      ]),
+      city: new FormControl(consumer?.city || null, [AppValidators.required]),
+      email: new FormControl(consumer?.email || null, [
+        AppValidators.required,
+        AppValidators.email,
+        AppValidators.cannotContainSpace
+      ]),
+      image: new FormControl(consumer?.imagePath || null, {
+        validators: [AppValidators.required],
+        asyncValidators: [mimeType]
+      })
+    });
   }
 
   ngOnDestroy() {

@@ -4,15 +4,15 @@ import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
-import { Consumer } from './consumer.model';
+import { Consumer } from '../../models/consumer.model';
 import { CoreConfig } from 'src/app/core/config';
 
 @Injectable({ providedIn: 'root' })
 export class ConsumerService {
-  private posts: Consumer[] = [];
-  private postsUpdated = new Subject<{
-    posts: Consumer[];
-    postCount: number;
+  private consumers: Consumer[] = [];
+  private consumersUpdated = new Subject<{
+    consumers: Consumer[];
+    consumerCount: number;
   }>();
 
   constructor(
@@ -21,101 +21,119 @@ export class ConsumerService {
     private coreConfig: CoreConfig
   ) {}
 
-  getPosts(postsPerPage: number, currentPage: number) {
-    const queryParams = `?pagesize=${postsPerPage}&page=${currentPage}`;
+  getConsumers(consumersPerPage: number, currentPage: number) {
+    const queryParams = `?pagesize=${consumersPerPage}&page=${currentPage}`;
     const BACKEND_URL =
-      this.coreConfig.select((r) => r.environment.api.dev.path) + '/posts/';
+      this.coreConfig.select((r) => r.environment.api.dev.path) + '/consumers/';
 
     this.http
-      .get<{ message: string; posts: any; maxPosts: number }>(
+      .get<{ message: string; consumers: any; maxConsumers: number }>(
         BACKEND_URL + queryParams
       )
       .pipe(
-        map((postData) => {
+        map((consumerData) => {
           return {
-            posts: postData.posts.map((post) => {
+            consumers: consumerData.consumers.map((consumer) => {
               return {
-                title: post.title,
-                content: post.content,
-                id: post._id,
-                imagePath: post.imagePath,
-                creator: post.creator
+                ...consumer,
+                id: consumer._id
               };
             }),
-            maxPosts: postData.maxPosts
+            maxConsumers: consumerData.maxConsumers
           };
         })
       )
-      .subscribe((transformedPostData) => {
-        this.posts = transformedPostData.posts;
-        this.postsUpdated.next({
-          posts: [...this.posts],
-          postCount: transformedPostData.maxPosts
+      .subscribe((transformedConsumerData) => {
+        this.consumers = transformedConsumerData.consumers;
+        this.consumersUpdated.next({
+          consumers: [...this.consumers],
+          consumerCount: transformedConsumerData.maxConsumers
         });
       });
   }
 
-  getPostUpdateListener() {
-    return this.postsUpdated.asObservable();
+  getConsumerUpdateListener() {
+    return this.consumersUpdated.asObservable();
   }
 
-  getPost(id: string) {
+  getConsumer(id: string) {
     const BACKEND_URL =
-      this.coreConfig.select((r) => r.environment.api.dev.path) + '/posts/';
+      this.coreConfig.select((r) => r.environment.api.dev.path) + '/consumers/';
 
-    return this.http.get<{
-      _id: string;
-      title: string;
-      content: string;
-      imagePath: string;
-      creator: string;
-    }>(BACKEND_URL + id);
+    return this.http.get(BACKEND_URL + id);
   }
 
-  addPost(title: string, content: string, image: File) {
+  /**
+   * Add new consumer
+   * @param consumer
+   */
+  addConsumer(consumer: Consumer) {
     const BACKEND_URL =
-      this.coreConfig.select((r) => r.environment.api.dev.path) + '/posts/';
+      this.coreConfig.select((r) => r.environment.api.dev.path) + '/consumers/';
 
-    const postData = new FormData();
-    postData.append('title', title);
-    postData.append('content', content);
-    postData.append('image', image, title);
+    const consumerData = new FormData();
+    consumerData.append('firstName', consumer.firstName);
+    consumerData.append('lastName', consumer.lastName);
+    consumerData.append('gender', consumer.gender);
+    consumerData.append('personalNumber', consumer.personalNumber + '');
+    consumerData.append('phone', consumer.phone + '');
+    consumerData.append('address', consumer.address);
+    consumerData.append('country', consumer.country);
+    consumerData.append('city', consumer.city);
+    consumerData.append('email', consumer.email);
+    consumerData.append('image', consumer.image, consumer.firstName);
     this.http
-      .post<{ message: string; post: Consumer }>(BACKEND_URL, postData)
+      .post<{ message: string; consumer: Consumer }>(BACKEND_URL, consumerData)
       .subscribe((responseData) => {
         this.router.navigate(['/']);
       });
   }
 
-  updatePost(id: string, title: string, content: string, image: File | string) {
+  updateConsumer(consumer: Consumer) {
     const BACKEND_URL =
-      this.coreConfig.select((r) => r.environment.api.dev.path) + '/posts/';
+      this.coreConfig.select((r) => r.environment.api.dev.path) + '/consumers/';
 
-    let postData: Consumer | FormData;
-    if (typeof image === 'object') {
-      postData = new FormData();
-      postData.append('id', id);
-      postData.append('title', title);
-      postData.append('content', content);
-      postData.append('image', image, title);
+    let consumerData: Consumer | FormData;
+    if (typeof consumer.image === 'object') {
+      consumerData = new FormData();
+      consumerData.append('id', consumer.id);
+      consumerData.append('firstName', consumer.firstName);
+      consumerData.append('lastName', consumer.lastName);
+      consumerData.append('gender', consumer.gender);
+      consumerData.append('personalNumber', consumer.personalNumber + '');
+      consumerData.append('phone', consumer.phone + '');
+      consumerData.append('address', consumer.address);
+      consumerData.append('country', consumer.country);
+      consumerData.append('city', consumer.city);
+      consumerData.append('email', consumer.email);
+      consumerData.append('image', consumer.image, consumer.firstName);
     } else {
-      postData = {
-        id: id,
-        title: title,
-        content: content,
-        imagePath: image,
+      consumerData = {
+        id: consumer.id,
+        firstName: consumer.firstName,
+        lastName: consumer.lastName,
+        gender: consumer.gender,
+        personalNumber: consumer.personalNumber,
+        phone: consumer.phone,
+        address: consumer.address,
+        country: consumer.country,
+        city: consumer.city,
+        email: consumer.email,
+        imagePath: consumer.image,
         creator: null
       };
     }
-    this.http.put(BACKEND_URL + id, postData).subscribe((response) => {
-      this.router.navigate(['/']);
-    });
+    this.http
+      .put(BACKEND_URL + consumer.id, consumerData)
+      .subscribe((response) => {
+        this.router.navigate(['/consumer']);
+      });
   }
 
-  deletePost(postId: string) {
+  deleteConsumer(id: string) {
     const BACKEND_URL =
-      this.coreConfig.select((r) => r.environment.api.dev.path) + '/posts/';
+      this.coreConfig.select((r) => r.environment.api.dev.path) + '/consumers/';
 
-    return this.http.delete(BACKEND_URL + postId);
+    return this.http.delete(BACKEND_URL + id);
   }
 }

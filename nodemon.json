@@ -2,12 +2,8 @@
   "env": {
     "NODE_ENV": "development",
     "PORT": 3000,
-    "USERNAME": "lasha",
-    "DATABASE": "mongodb+srv://Lasha:<password>@cluster0.rnjzf.mongodb.net/natours?retryWrites=true&w=majority",
     "DATABASE_LOCAL": "mongodb://localhost:27017/Promotions",
-    "DATABASE_PASSWORD": "IWfsNislwmVSX1rO",
-    "PASSWORD": 123456,
-    "MONGO_ATLAS_PW": "YwZNj33jYI0ez0IH",
-    "JWT_KEY": "secret_this_should_be_longer"
+    "JWT_KEY": "secret_this_should_be_longer",
+    "USERNAME": "Lasha Iakobadze"
   }
 }

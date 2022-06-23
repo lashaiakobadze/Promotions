@@ -12,9 +12,9 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { AppRoutingModule } from './app.routing';
 import { CoreConfigModule } from './core/config/config.module';
+import { ConsumerModule } from './modules/consumer/consumer.module';
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { ErrorInterceptor } from './error-interceptor';
-import { ConsumerModule } from './posts/posts.module';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './layout/header/header.component';

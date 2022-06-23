@@ -5,41 +5,17 @@ const mongoose = require("mongoose");
 
 const postsRoutes = require("./routes/posts");
 const userRoutes = require("./routes/user");
+const consumerRoutes = require("./routes/consumerRoutes");
 
 const app = express();
 
-// mongoose
-//   .connect(
-//     "mongodb+srv://max:" +
-//       process.env.MONGO_ATLAS_PW +
-//       "@cluster0-ntrwp.mongodb.net/node-angular"
-//   )
-//   .then(() => {
-//     console.log("Connected to database!");
-//   })
-//   .catch(() => {
-//     console.log("Connection failed!");
-//   });
+const DB = process.env.DATABASE_LOCAL;
 
-// const DB = process.env.DATABASE.replace(
-//   "<password>",
-//   process.env.DATABASE_PASSWORD
-// );
-
-// mongoose
-//   // .connect(process.env.DATABASE_LOCAL, {
-//   .connect(DB, {
-//     useNewUrlParser: true,
-//     useCreateIndex: true,
-//     useFindAndModify: false,
-//     useUnifiedTopology: true
-//   })
-// .then(() => {
-//   console.log("DB connection successful!");
-// });
-
+/**
+ * connect local cluster for easy use.
+ */
 mongoose
-  .connect("mongodb://localhost:27017/Promotions", {
+  .connect(DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     keepAlive: 1
@@ -67,5 +43,6 @@ app.use((req, res, next) => {
 
 app.use("/api/posts", postsRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/consumers", consumerRoutes);
 
 module.exports = app;

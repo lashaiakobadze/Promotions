@@ -162,8 +162,8 @@
             width="100px"
             height="100px"
             class="panel-img"
-            [src]="selectedFile?.src || BASE_URL + registrationForm?.imageUrl"
-            [alt]="registrationForm?.imageUrl"
+            [src]="selectedFile?.src || BASE_URL + registrationForm?.imagePath"
+            [alt]="registrationForm?.imagePath"
           />
           <div class="example-button-container">
             <button
@@ -181,7 +181,7 @@
           *ngIf="!selectedFile?.src"
           matInput
           [value]="
-            selectedFile?.src ? registrationForm?.imageUrl : 'Select Images'
+            selectedFile?.src ? registrationForm?.imagePath : 'Select Images'
           "
         />
         <input

@@ -43,7 +43,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatTooltipModule,
     MatTableModule,
     MatPaginatorModule,
-
     MatCardModule,
     MatExpansionModule,
     MatProgressSpinnerModule,

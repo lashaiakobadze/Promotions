@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
+import { Consumer } from 'src/app/models/consumer.model';
 
-import { Consumer } from '../consumer.model';
 import { ConsumerService } from '../consumer.service';
 
 @Component({
@@ -12,38 +12,35 @@ import { ConsumerService } from '../consumer.service';
   styleUrls: ['./consumer-list.component.scss']
 })
 export class ConsumerListComponent implements OnInit, OnDestroy {
-  // posts = [
-  //   { title: "First Consumer", content: "This is the first post's content" },
-  //   { title: "Second Consumer", content: "This is the second post's content" },
-  //   { title: "Third Consumer", content: "This is the third post's content" }
-  // ];
-  posts: Consumer[] = [];
+  consumers: Consumer[] = [];
   isLoading = false;
-  totalPosts = 0;
-  postsPerPage = 2;
+  totalConsumers = 0;
+  consumersPerPage = 2;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
   userIsAuthenticated = false;
   userId: string;
-  private postsSub: Subscription;
+  private consumersSub: Subscription;
   private authStatusSub: Subscription;
 
   constructor(
-    public postsService: ConsumerService,
+    public consumersService: ConsumerService,
     private authService: AuthService
   ) {}
 
   ngOnInit() {
     this.isLoading = true;
-    this.postsService.getPosts(this.postsPerPage, this.currentPage);
+    this.consumersService.getConsumers(this.consumersPerPage, this.currentPage);
     this.userId = this.authService.getUserId();
-    this.postsSub = this.postsService
-      .getPostUpdateListener()
-      .subscribe((postData: { posts: Consumer[]; postCount: number }) => {
-        this.isLoading = false;
-        this.totalPosts = postData.postCount;
-        this.posts = postData.posts;
-      });
+    this.consumersSub = this.consumersService
+      .getConsumerUpdateListener()
+      .subscribe(
+        (consumerData: { consumers: Consumer[]; consumerCount: number }) => {
+          this.isLoading = false;
+          this.totalConsumers = consumerData.consumerCount;
+          this.consumers = consumerData.consumers;
+        }
+      );
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.authStatusSub = this.authService
       .getAuthStatusListener()
@@ -56,15 +53,18 @@ export class ConsumerListComponent implements OnInit, OnDestroy {
   onChangedPage(pageData: PageEvent) {
     this.isLoading = true;
     this.currentPage = pageData.pageIndex + 1;
-    this.postsPerPage = pageData.pageSize;
-    this.postsService.getPosts(this.postsPerPage, this.currentPage);
+    this.consumersPerPage = pageData.pageSize;
+    this.consumersService.getConsumers(this.consumersPerPage, this.currentPage);
   }
 
-  onDelete(postId: string) {
+  onDelete(ConsumerId: string) {
     this.isLoading = true;
-    this.postsService.deletePost(postId).subscribe(
+    this.consumersService.deleteConsumer(ConsumerId).subscribe(
       () => {
-        this.postsService.getPosts(this.postsPerPage, this.currentPage);
+        this.consumersService.getConsumers(
+          this.consumersPerPage,
+          this.currentPage
+        );
       },
       () => {
         this.isLoading = false;
@@ -73,7 +73,7 @@ export class ConsumerListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.postsSub.unsubscribe();
+    this.consumersSub.unsubscribe();
     this.authStatusSub.unsubscribe();
   }
 }

@@ -1,18 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ConsumerListComponent } from './posts/post-list/post-list.component';
-import { ConsumerCreateComponent } from './posts/post-create/post-create.component';
 import { AuthGuard } from './auth/auth.guard';
 
+import { ConsumerCreateComponent } from './modules/consumer/consumer-create/consumer-create.component';
+import { ConsumerListComponent } from './modules/consumer/consumer-list/consumer-list.component';
+
 const routes: Routes = [
-  { path: '', component: ConsumerListComponent },
+  // { path: '', component: PromotionsComponent },
+  { path: 'consumer', component: ConsumerListComponent },
   {
-    path: 'create',
+    path: 'consumer/create',
     component: ConsumerCreateComponent,
     canActivate: [AuthGuard]
   },
   {
-    path: 'edit/:postId',
+    path: 'consumer/edit/:consumerId',
     component: ConsumerCreateComponent,
     canActivate: [AuthGuard]
   },
