@@ -25,15 +25,21 @@ export class AppValidators extends NGValidators {
       : undefined;
   }
 
-  // static override pattern(pattern: string | RegExp, patternDescription?: string): any {
-  //   return (control: AbstractControl) => {
-  //     if (super.pattern(pattern)(control)) {
-  //       return {
-  //         minLength: `Please follow the template '${patternDescription || pattern.toString()}'`
-  //       };
-  //     }
-  //   };
-  // };
+  static override pattern(
+    pattern: string | RegExp,
+    patternDescription?: string
+  ): any {
+    return (control: AbstractControl) => {
+      if (super.pattern(pattern)(control)) {
+        return {
+          minLength: `Please follow the template '${
+            patternDescription || pattern.toString()
+          }'`
+        };
+      }
+      return undefined;
+    };
+  }
 
   static cannotContainSpace(control: AbstractControl): ValidationErrors | null {
     return (control.value as string)?.indexOf(' ') !== -1
@@ -44,6 +50,13 @@ export class AppValidators extends NGValidators {
   static minNumber(control: AbstractControl): ValidationErrors | null {
     return (control.value as number) < 1
       ? { minValue: 'Please enter at least 1' }
+      : undefined;
+  }
+
+  // ToDo: fix type of bug.
+  static number(control: AbstractControl): ValidationErrors | null {
+    return typeof control.value === 'number'
+      ? { value: 'Please enter number' }
       : undefined;
   }
 

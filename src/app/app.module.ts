@@ -12,7 +12,6 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { AppRoutingModule } from './app.routing';
 import { CoreConfigModule } from './core/config/config.module';
-import { ConsumerModule } from './modules/consumer/consumer.module';
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { ErrorInterceptor } from './error-interceptor';
 
@@ -20,7 +19,6 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { ErrorComponent } from './error/error.component';
 import { RegistrationComponent } from './modules/registration/registration.component';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,8 +39,7 @@ import { RegistrationComponent } from './modules/registration/registration.compo
       path: `config/config.json`
     }),
     TranslateModule.forRoot(translateProviders),
-    AngularMaterialModule,
-    ConsumerModule
+    AngularMaterialModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

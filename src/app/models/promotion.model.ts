@@ -4,7 +4,7 @@ import { PromoType } from './promoType.enum';
 export class Promotion {
   constructor(
     public promoId: number,
-    public consumerID: number,
+    public consumerId: number,
     public promoType: PromoType,
     public promoCount: number,
     public currency?: Currency

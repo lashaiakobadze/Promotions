@@ -1,0 +1,19 @@
+<app-consumer-list
+  *ngIf="this.consumers && consumerListMode"
+  [consumers]="consumers"
+  [isLoading]="isLoading"
+  [totalConsumers]="totalConsumers"
+  [consumersPerPage]="consumersPerPage"
+  [currentPage]="currentPage"
+  [pageSizeOptions]="pageSizeOptions"
+  [userIsAuthenticated]="userIsAuthenticated"
+  [userId]="userId"
+></app-consumer-list>
+
+<app-consumer-create
+  *ngIf="consumerCreateMode"
+  [consumer]="consumer"
+  [id]="id"
+  [isLoading]="isLoading"
+  [mode]="mode"
+></app-consumer-create>

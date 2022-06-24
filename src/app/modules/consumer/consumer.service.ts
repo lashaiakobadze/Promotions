@@ -85,7 +85,7 @@ export class ConsumerService {
     this.http
       .post<{ message: string; consumer: Consumer }>(BACKEND_URL, consumerData)
       .subscribe((responseData) => {
-        this.router.navigate(['/']);
+        this.router.navigate(['/consumer']);
       });
   }
 

@@ -1,3 +1,11 @@
 {
-  "trailingComma": "none"
+  "trailingComma": "none",
+  "prettier.arrowParens": {
+    "type": "string",
+    "enum": ["avoid", "always"],
+    "default": "always",
+    "markdownDescription": "%ext.config.arrowParens%",
+    "scope": "resource"
+  },
+  "prettier.arrowParens": "avoid"
 }

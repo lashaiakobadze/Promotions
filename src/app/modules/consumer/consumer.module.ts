@@ -9,6 +9,7 @@ import { translateProviders } from 'src/app/localization.module';
 
 import { ConsumerCreateComponent } from './consumer-create/consumer-create.component';
 import { ConsumerListComponent } from './consumer-list/consumer-list.component';
+import { ConsumerRoutingModule } from './consumer.routing';
 
 @NgModule({
   declarations: [ConsumerCreateComponent, ConsumerListComponent],
@@ -17,7 +18,8 @@ import { ConsumerListComponent } from './consumer-list/consumer-list.component';
     ReactiveFormsModule,
     AngularMaterialModule,
     RouterModule,
-    TranslateModule.forRoot(translateProviders)
+    TranslateModule.forRoot(translateProviders),
+    ConsumerRoutingModule
   ]
 })
 export class ConsumerModule {}

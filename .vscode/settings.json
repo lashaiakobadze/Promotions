@@ -1,5 +1,6 @@
 {
   "cSpell.words": ["msaap", "zarzma"],
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.arrowParens": "avoid",
   "editor.formatOnSave": true
 }

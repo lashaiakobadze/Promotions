@@ -3,6 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+/**
+ * Translate module for feature use.
+ */
 export class TranslateBrowserLoader implements TranslateLoader {
   constructor(
     private prefix: string,
