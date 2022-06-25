@@ -4,7 +4,7 @@ const PromoController = require("../controllers/promoController");
 
 const router = express.Router();
 
-// router.post("", PromoController.createConsumer);
+router.post("", PromoController.createPromo);
 
 // router.put("/:id", PromoController.updateConsumer);
 

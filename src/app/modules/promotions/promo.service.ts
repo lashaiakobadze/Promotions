@@ -2,21 +2,52 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { CoreConfig } from 'src/app/core/config';
-import { PromoType } from 'src/app/models/promoType.enum';
+import { Promotion } from 'src/app/models/promotion.model';
+import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PromoService {
-  constructor(private http: HttpClient, private coreConfig: CoreConfig) {}
+  basicPromos = new Subject<Promotion[]>();
 
-  getPromos() {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private coreConfig: CoreConfig
+  ) {}
+
+  getBasicPromos() {
     const BACKEND_URL =
       this.coreConfig.select((r) => r.environment.api.dev.path) +
       '/promotions/';
 
-    return this.http.get(BACKEND_URL);
+    this.http.get(BACKEND_URL).subscribe((promotions: any) => {
+      this.basicPromos.next(promotions.promotions);
+      console.log(this.basicPromos);
+    });
   }
 
-  addPromo(consumerId: string, promoType: PromoType) {
-    console.log('consumerId', consumerId, promoType);
+  addPromo(consumerId: string, promo: Promotion) {
+    const BACKEND_URL =
+      this.coreConfig.select((r) => r.environment.api.dev.path) +
+      '/promotions/';
+
+    let promoData: Promotion;
+
+    promoData = {
+      consumerId,
+      promoId: promo.promoId,
+      promoType: promo.promoType,
+      promoCount: promo.promoCount,
+      currency: promo.currency
+    };
+    console.log(promoData);
+
+    this.http
+      .post<{ message: string; promo: Promotion }>(BACKEND_URL, promoData)
+      .subscribe((responseData) => {
+        console.log(responseData);
+        this.router.navigate(['/consumer']);
+      });
   }
 }

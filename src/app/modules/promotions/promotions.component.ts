@@ -12,8 +12,9 @@ export class PromotionsComponent implements OnInit {
   constructor(private promoService: PromoService) {}
 
   ngOnInit(): void {
-    this.promoService.getPromos().subscribe((promotions: any) => {
-      this.promotions = promotions.promotions;
+    this.promoService.getBasicPromos();
+    this.promoService.basicPromos.subscribe((promotions: any) => {
+      this.promotions = promotions;
     });
   }
 }

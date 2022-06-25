@@ -1,5 +1,5 @@
 <div class="card-wrapper">
-  <ng-container *ngIf="!promotions">
+  <ng-container *ngIf="!promotions?.length">
     <div class="card-wrapper__info">
       <h2>Promotions server side application not activated yet!</h2>
 
@@ -17,17 +17,19 @@
       >
       <span
         >4. To start the application dependencies, open the terminal, go to the
-        root folder of the application / repository and then type command **npm
-        install**.</span
+        root folder of the application / repository and then type command
+        **<strong>npm install</strong>**.</span
       >
       <span
         >5. To run application server, in the terminal, at the root folder of
-        application,type command **npm run start:server**.</span
+        application,type command **<strong>npm run start:server</strong
+        >**.</span
       >
       <span
         >6. If you are running application for the first time then you need some
-        dummy promotions entered. For this purpose, you need to run **npm run
-        save_basic_promotions**.</span
+        dummy promotions entered. For this purpose, you need to run **<strong
+          >npm run save_basic_promotions</strong
+        >**.</span
       >
       <span
         >7. Now to use the system, open any browser and visit

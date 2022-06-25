@@ -5,6 +5,7 @@ import {
   MAT_DIALOG_DATA
 } from '@angular/material/dialog';
 import { Consumer } from 'src/app/models/consumer.model';
+import { Promotion } from 'src/app/models/promotion.model';
 import { PromoType } from 'src/app/models/promoType.enum';
 import { PromoService } from '../promotions/promo.service';
 
@@ -42,10 +43,11 @@ export class ModalComponent {
   selector: 'app-modal-content',
   templateUrl: 'modal-content.html'
 })
-export class DialogContentComponent {
+export class DialogContentComponent implements OnInit {
   fromPage: string;
   fromDialog = 'Dialog data';
   PROMO_TYPE = PromoType;
+  promotions: Promotion[];
 
   constructor(
     public modal: MatDialog,
@@ -56,12 +58,39 @@ export class DialogContentComponent {
     this.fromPage = data.pageValue;
   }
 
+  ngOnInit(): void {
+    this.promoService.getBasicPromos();
+    this.promoService.basicPromos.subscribe((promotions: any) => {
+      this.promotions = promotions;
+    });
+
+    // this.promoImgPath = `assets/promotions/${this.promo.promoType}.jpg`;
+  }
+
   onAddPromo(consumerId: string, promoType: PromoType) {
     this.fromDialog = consumerId;
-    this.promoService.addPromo(consumerId, promoType);
+    const currPromo = this.promotions.find(
+      (promo: Promotion) => promo.promoType === promoType
+    );
+
+    this.promoService.addPromo(consumerId, currPromo);
   }
 
   closeDialog() {
     this.dialogRef.close({ event: 'close', data: this.fromDialog });
+  }
+
+  step = null;
+
+  setStep(index: number) {
+    this.step = index;
+  }
+
+  nextStep() {
+    this.step++;
+  }
+
+  prevStep() {
+    this.step--;
   }
 }

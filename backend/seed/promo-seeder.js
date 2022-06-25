@@ -17,24 +17,24 @@ mongoose
 var promotions = [
   new Promo({
     promoId: 1,
-    consumerId: 1,
     promoType: "Freespin",
     promoCount: 1,
-    currency: "GEL"
+    currency: "GEL",
+    basicPromo: true
   }),
   new Promo({
     promoId: 2,
-    consumerId: 1,
     promoType: "Freebet",
     promoCount: 1,
-    currency: "GEL"
+    currency: "GEL",
+    basicPromo: true
   }),
   new Promo({
     promoId: 3,
-    consumerId: 1,
     promoType: "Money",
     promoCount: 1,
-    currency: "GEL"
+    currency: "GEL",
+    basicPromo: true
   })
 ];
 
