@@ -42,7 +42,10 @@
     </mat-card>
 
     <mat-action-row *ngIf="userIsAuthenticated && userId === consumer.creator">
-      <app-modal [modalTitle]="'Promotions'" [consumer]="consumer"></app-modal>
+      <app-promotions-modal
+        [modalTitle]="'Promotions'"
+        [consumer]="consumer"
+      ></app-promotions-modal>
       <div>
         <a mat-button color="primary" [routerLink]="['edit', consumer.id]"
           >EDIT</a

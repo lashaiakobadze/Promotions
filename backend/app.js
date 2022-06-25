@@ -13,7 +13,7 @@ const app = express();
 const DB = process.env.DATABASE_LOCAL;
 
 /**
- * connect local cluster for easy use.
+ * connect local cluster for easy use everyone.
  */
 mongoose
   .connect(DB, {

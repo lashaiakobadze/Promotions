@@ -10,7 +10,7 @@ import { translateProviders } from 'src/app/localization.module';
 import { ConsumerCreateComponent } from './consumer-create/consumer-create.component';
 import { ConsumerListComponent } from './consumer-list/consumer-list.component';
 import { ConsumerRoutingModule } from './consumer.routing';
-import { ModalModule } from '../dialog/modal.module';
+import { PromotionsModule } from '../promotions/promotions.module';
 
 @NgModule({
   declarations: [ConsumerCreateComponent, ConsumerListComponent],
@@ -21,7 +21,7 @@ import { ModalModule } from '../dialog/modal.module';
     RouterModule,
     TranslateModule.forRoot(translateProviders),
     ConsumerRoutingModule,
-    ModalModule
+    PromotionsModule
   ]
 })
 export class ConsumerModule {}

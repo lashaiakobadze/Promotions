@@ -7,6 +7,7 @@ export class Promotion {
     public consumerId: string,
     public promoType: PromoType,
     public promoCount: number,
-    public currency?: Currency
+    public currency?: Currency,
+    public basicPromo?: boolean
   ) {}
 }

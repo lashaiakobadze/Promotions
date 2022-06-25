@@ -18,14 +18,8 @@ import { ErrorInterceptor } from './error-interceptor';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { ErrorComponent } from './error/error.component';
-import { RegistrationComponent } from './modules/registration/registration.component';
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    ErrorComponent,
-    RegistrationComponent
-  ],
+  declarations: [AppComponent, HeaderComponent, ErrorComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

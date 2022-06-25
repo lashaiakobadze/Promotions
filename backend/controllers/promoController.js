@@ -30,17 +30,30 @@ exports.createPromo = (req, res, next) => {
 exports.getPromotions = (req, res, next) => {
   const promoQuery = Promo.find();
   let fetchedPromotions;
+  /**
+   * @basicPromotions is such basic, added from admin, with business logic.
+   */
+  let basicPromotions;
+  /**
+   * @consumerPromotions is really consumer's promotions.
+   */
+  let consumerPromotions;
 
   promoQuery
     .then((documents) => {
       fetchedPromotions = documents;
+      basicPromotions = fetchedPromotions.filter((promo) => promo.basicPromo);
+      consumerPromotions = fetchedPromotions.filter(
+        (promo) => !promo.basicPromo
+      );
       return Promo.count();
     })
     .then((count) => {
       res.status(200).json({
         message: "promotions fetched successfully!",
-        promotions: fetchedPromotions,
-        maxConsumers: count
+        promotions: consumerPromotions,
+        basicPromotions: basicPromotions,
+        maxPromotions: count
       });
     })
     .catch((error) => {
