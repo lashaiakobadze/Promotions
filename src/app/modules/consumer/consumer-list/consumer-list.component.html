@@ -42,12 +42,15 @@
     </mat-card>
 
     <mat-action-row *ngIf="userIsAuthenticated && userId === consumer.creator">
-      <a mat-button color="primary" [routerLink]="['edit', consumer.id]"
-        >EDIT</a
-      >
-      <button mat-button color="warn" (click)="onDelete(consumer.id)">
-        DELETE
-      </button>
+      <app-modal [modalTitle]="'Add promo'" [consumer]="consumer"></app-modal>
+      <div>
+        <a mat-button color="primary" [routerLink]="['edit', consumer.id]"
+          >EDIT</a
+        >
+        <button mat-button color="warn" (click)="onDelete(consumer.id)">
+          DELETE
+        </button>
+      </div>
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>

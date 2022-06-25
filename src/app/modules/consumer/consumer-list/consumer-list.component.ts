@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
+
 import { AuthService } from 'src/app/auth/auth.service';
 import { Consumer } from 'src/app/models/consumer.model';
 
@@ -22,6 +23,8 @@ export class ConsumerListComponent implements OnInit, OnDestroy {
   userId: string;
   private consumersSub: Subscription;
   private authStatusSub: Subscription;
+
+  openDialog = false;
 
   constructor(
     public consumersService: ConsumerService,
@@ -70,6 +73,27 @@ export class ConsumerListComponent implements OnInit, OnDestroy {
         this.isLoading = false;
       }
     );
+  }
+
+  onAddPromotion(ConsumerId: string) {
+    this.openDialog = true;
+
+    // this.isLoading = true;
+    // this.consumersService.deleteConsumer(ConsumerId).subscribe(
+    //   () => {
+    //     this.consumersService.getConsumers(
+    //       this.consumersPerPage,
+    //       this.currentPage
+    //     );
+    //   },
+    //   () => {
+    //     this.isLoading = false;
+    //   }
+    // );
+  }
+
+  onPromoAdded() {
+    this.openDialog = false;
   }
 
   ngOnDestroy() {

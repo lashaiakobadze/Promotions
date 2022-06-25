@@ -10,7 +10,7 @@ import { translateProviders } from 'src/app/localization.module';
 import { ConsumerContainerComponent } from './consumer-container.component';
 // import { ConsumerCreateComponent } from '../../modules/consumer/consumer-create/consumer-create.component';
 // import { ConsumerListComponent } from '../../modules/consumer/consumer-list/consumer-list.component';
-import { ConsumerRoutingModule } from './consumer-container.routing';
+// import { ConsumerContainerRoutingModule } from './consumer-container.routing';
 
 @NgModule({
   declarations: [
@@ -23,8 +23,8 @@ import { ConsumerRoutingModule } from './consumer-container.routing';
     RouterModule,
     ReactiveFormsModule,
     AngularMaterialModule,
-    TranslateModule.forRoot(translateProviders),
-    ConsumerRoutingModule
+    TranslateModule.forRoot(translateProviders)
+    // ConsumerContainerRoutingModule
   ]
 })
 export class ConsumerContainerModule {}

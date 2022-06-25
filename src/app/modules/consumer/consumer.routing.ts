@@ -8,19 +8,17 @@ import { ConsumerListComponent } from './consumer-list/consumer-list.component';
 const routes: Routes = [
   {
     path: '',
-    component: ConsumerListComponent,
-    children: [
-      {
-        path: 'create',
-        component: ConsumerCreateComponent,
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'edit/:consumerId',
-        component: ConsumerCreateComponent,
-        canActivate: [AuthGuard]
-      }
-    ]
+    component: ConsumerListComponent
+  },
+  {
+    path: 'create',
+    component: ConsumerCreateComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'edit/:consumerId',
+    component: ConsumerCreateComponent,
+    canActivate: [AuthGuard]
   }
 ];
 

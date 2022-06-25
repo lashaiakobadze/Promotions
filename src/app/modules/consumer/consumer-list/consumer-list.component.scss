@@ -34,3 +34,8 @@ mat-panel-description {
 .example-card {
   display: flex;
 }
+
+.mat-action-row {
+  display: flex;
+  justify-content: space-between;
+}

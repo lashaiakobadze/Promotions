@@ -14,4 +14,8 @@ export class PromoService {
 
     return this.http.get(BACKEND_URL);
   }
+
+  addPromo(consumerId: string) {
+    console.log('consumerId', consumerId);
+  }
 }

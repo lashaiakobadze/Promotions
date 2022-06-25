@@ -22,7 +22,7 @@ export class ConsumerCreateComponent implements OnInit, OnDestroy {
   form: FormGroup;
   imagePreview: string;
   mode = 'create';
-  localFormError: string = '';
+  localFormError = '';
   private id: string;
   private authStatusSub: Subscription;
 
