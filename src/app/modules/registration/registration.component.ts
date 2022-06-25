@@ -24,7 +24,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   authSub: Subscription;
   registrationSub: Subscription;
 
-  constructor() {} // private errorService: ErrorService
+  constructor() {}
 
   ngOnInit(): void {
     this.initForm();

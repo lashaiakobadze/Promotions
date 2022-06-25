@@ -6,16 +6,6 @@ import { PromotionsComponent } from './modules/promotions/promotions.component';
 
 const routes: Routes = [
   { path: '', component: PromotionsComponent },
-  // {
-  //   path: 'consumer/create',
-  //   component: ConsumerCreateComponent,
-  //   canActivate: [AuthGuard]
-  // },
-  // {
-  //   path: 'consumer/edit/:consumerId',
-  //   component: ConsumerCreateComponent,
-  //   canActivate: [AuthGuard]
-  // },
   {
     path: '',
     loadChildren: () =>

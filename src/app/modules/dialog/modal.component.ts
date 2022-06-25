@@ -5,6 +5,7 @@ import {
   MAT_DIALOG_DATA
 } from '@angular/material/dialog';
 import { Consumer } from 'src/app/models/consumer.model';
+import { PromoType } from 'src/app/models/promoType.enum';
 import { PromoService } from '../promotions/promo.service';
 
 /**
@@ -32,7 +33,7 @@ export class ModalComponent {
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Modal result: ${result}`);
 
-      this.dialogValue = result.data;
+      this.dialogValue = result?.data;
     });
   }
 }
@@ -44,6 +45,7 @@ export class ModalComponent {
 export class DialogContentComponent {
   fromPage: string;
   fromDialog = 'Dialog data';
+  PROMO_TYPE = PromoType;
 
   constructor(
     public modal: MatDialog,
@@ -54,9 +56,9 @@ export class DialogContentComponent {
     this.fromPage = data.pageValue;
   }
 
-  onAddPromo(consumerId: string) {
+  onAddPromo(consumerId: string, promoType: PromoType) {
     this.fromDialog = consumerId;
-    this.promoService.addPromo(consumerId);
+    this.promoService.addPromo(consumerId, promoType);
   }
 
   closeDialog() {

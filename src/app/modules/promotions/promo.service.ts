@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { CoreConfig } from 'src/app/core/config';
+import { PromoType } from 'src/app/models/promoType.enum';
 
 @Injectable({ providedIn: 'root' })
 export class PromoService {
@@ -15,7 +16,7 @@ export class PromoService {
     return this.http.get(BACKEND_URL);
   }
 
-  addPromo(consumerId: string) {
-    console.log('consumerId', consumerId);
+  addPromo(consumerId: string, promoType: PromoType) {
+    console.log('consumerId', consumerId, promoType);
   }
 }

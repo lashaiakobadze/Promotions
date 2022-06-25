@@ -3,12 +3,26 @@
   <p class="mat-body-1">{{ fromPage }}</p>
 </div>
 <div mat-dialog-actions>
-  <button mat-button color="primary" (click)="onAddPromo(fromPage)">
+  <button
+    mat-button
+    color="primary"
+    (click)="onAddPromo(fromPage, PROMO_TYPE.FREESPIN)"
+  >
     FreeSpin
   </button>
-  <button mat-button color="secondary" (click)="onAddPromo(fromPage)">
+  <button
+    mat-button
+    color="secondary"
+    (click)="onAddPromo(fromPage, PROMO_TYPE.FREEBET)"
+  >
     FreeBet
   </button>
-  <button mat-button color="warn" (click)="onAddPromo(fromPage)">Money</button>
+  <button
+    mat-button
+    color="warn"
+    (click)="onAddPromo(fromPage, PROMO_TYPE.MONEY)"
+  >
+    Money
+  </button>
   <button mat-button mat-dialog-close cdkFocusInitial>Cancel</button>
 </div>
