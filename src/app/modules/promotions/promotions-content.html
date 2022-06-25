@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Choose promo type and configure for consumer</h1>
+<mat-accordion>
+  <ng-container *ngFor="let promo of promotions">
+    <app-promo
+      [promo]="promo"
+      (updatedPromo)="onUpdatePromo($event)"
+    ></app-promo>
+  </ng-container>
+</mat-accordion>
+
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close cdkFocusInitial>Cancel</button>
+</div>

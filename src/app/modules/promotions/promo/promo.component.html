@@ -1,33 +1,48 @@
-<mat-card class="example-card">
-  <mat-card-header>
-    <img [src]="promoImgPath" [alt]="promo.promoType" mat-card-avatar />
-    <mat-card-title>{{ promo.promoType }}</mat-card-title>
-    <mat-card-subtitle>
-      Learn Web Development with Easy Tutorials
-    </mat-card-subtitle>
-  </mat-card-header>
-  <img
-    mat-card-image
-    height="200px"
-    [src]="promoImgPath"
-    [alt]="promo.promoType"
-  />
-  <mat-card-content>
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat.
-    </p>
-  </mat-card-content>
+<mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      <button
+        mat-button
+        [color]="
+          promo.promoType === PROMO_TYPE.MONEY
+            ? 'accent'
+            : promo.promoType === PROMO_TYPE.FREEBET
+            ? 'primary'
+            : 'warn'
+        "
+      >
+        {{ promo.promoType }}
+      </button>
+    </mat-panel-title>
+    <mat-panel-description>
+      {{ "Configure consumer " + promo.promoType }}
+      <mat-icon>
+        <img mat-card-image [src]="promoImgPath" [alt]="promo.promoType"
+      /></mat-icon>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
 
-  <!-- ToDo: hide this button when user is authenticated and show others. -->
-  <mat-card-actions>
-    <button mat-raised-button color="accent" routerLink="/auth/login">
-      Login
+  <mat-form-field>
+    <input
+      matInput
+      type="number"
+      min="0"
+      [placeholder]="promo.promoType + ' count'"
+    />
+  </mat-form-field>
+
+  <div *ngIf="promo.promoType === PROMO_TYPE.MONEY" class="misc-bottom-padding">
+    <mat-label>Currency:</mat-label>
+    <mat-radio-group aria-label="Select an option" formControlName="Currency">
+      <mat-radio-button value="GEL"> CURRENCY.GEL </mat-radio-button>
+      <mat-radio-button value="USD"> CURRENCY.USD </mat-radio-button>
+    </mat-radio-group>
+  </div>
+
+  <mat-action-row>
+    <button mat-button color="accent" (click)="onAddPromo(promo)">
+      {{ "Configure " + promo.promoType }}
     </button>
-    <button mat-raised-button color="primary" routerLink="/auth/signup">
-      Signup
-    </button>
-  </mat-card-actions>
-</mat-card>
+    <button mat-button color="primary" (click)="nextStep()">Cancel</button>
+  </mat-action-row>
+</mat-expansion-panel>
