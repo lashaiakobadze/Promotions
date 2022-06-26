@@ -27,7 +27,33 @@ exports.createPromo = (req, res, next) => {
     });
 };
 
-exports.getPromotions = (req, res, next) => {
+exports.updatePromo = (req, res, next) => {
+  const promo = new Promo({
+    _id: req.body._id,
+    promoId: req.body.promoId,
+    consumerId: req.body.consumerId,
+    promoType: req.body.promoType,
+    promoCount: req.body.promoCount,
+    currency: req.body.currency
+  });
+
+  Promo.updateOne({ _id: req.body._id, consumerId: req.body.consumerId }, promo)
+    .then((result) => {
+      console.log(result);
+      if (result.matchedCount > 0) {
+        res.status(200).json({ message: "Promo Update successful!" });
+      } else {
+        res.status(401).json({ message: "Promo Not updated!" });
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({
+        message: "Couldn't update promo!"
+      });
+    });
+};
+
+exports.getBasicPromotions = (req, res, next) => {
   const promoQuery = Promo.find();
   let fetchedPromotions;
   /**
@@ -50,7 +76,7 @@ exports.getPromotions = (req, res, next) => {
     })
     .then((count) => {
       res.status(200).json({
-        message: "promotions fetched successfully!",
+        message: "Promotions fetched successfully!",
         promotions: consumerPromotions,
         basicPromotions: basicPromotions,
         maxPromotions: count
@@ -64,27 +90,53 @@ exports.getPromotions = (req, res, next) => {
 };
 
 exports.fetchConsumerPromotions = (req, res, next) => {
-  console.log("req.body.consumerId", req.params.consumerId);
-  if (req.params.consumerId) {
-    Promo.findById(req.body.consumerId)
-      .then((promos) => {
-        if (promos) {
-          console.log(promos);
-          res.status(200).json(promos);
-        } else {
-          res.status(404).json({ message: "Promo not found!" });
-        }
-      })
-      .catch((error) => {
-        res.status(500).json({
-          message: "Fetching promo failed!"
+  let allPromotion;
+  let basicPromotions;
+  let consumerPromotions = [];
+
+  Promo.find()
+    .then((fetchedPromotionsDocument) => {
+      allPromotion = fetchedPromotionsDocument;
+
+      basicPromotions = allPromotion.filter((promo) => promo.basicPromo);
+
+      consumerPromotions = allPromotion.filter(
+        (promo) => promo.consumerId == req.body.consumerId
+      );
+
+      let basicPromos = basicPromotions;
+
+      if (!consumerPromotions.length) {
+        consumerPromotions = basicPromotions;
+      } else {
+        consumerPromotions.forEach((promo) => {
+          let fundedIndex = basicPromotions.findIndex(
+            (basicPromo) => basicPromo.promoId === promo.promoId
+          );
+
+          basicPromos.splice(fundedIndex, 1);
         });
+
+        consumerPromotions = consumerPromotions.concat(basicPromos);
+      }
+      return Promo.count();
+    })
+    .then((count) => {
+      res.status(200).json({
+        message: "Consumer promotions fetched successfully!",
+        promotions: consumerPromotions,
+        maxPromotions: count
       });
-  }
+    })
+    .catch((error) => {
+      res.status(500).json({
+        message: "Fetching Consumer promotions failed!"
+      });
+    });
 };
 
 exports.deletePromo = (req, res, next) => {
-  Promo.deleteOne({ _id: req.params.id, creator: req.userData.userId })
+  Promo.deleteOne({ _id: req.body._id, consumerId: req.body.consumerId })
     .then((result) => {
       if (result.deletedCount > 0) {
         res.status(200).json({ message: "Deletion successful!" });

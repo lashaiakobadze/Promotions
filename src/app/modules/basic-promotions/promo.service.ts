@@ -8,11 +8,8 @@ import { Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PromoService {
-  fetchedPromotions = new Subject<{
-    basicPromos: Promotion[];
-    promotions: Promotion[];
-  }>();
-  promotions = new Subject<Promotion[]>();
+  basicPromos = new Subject<Promotion[]>();
+  consumerPromos = new Subject<Promotion[]>();
 
   constructor(
     private http: HttpClient,
@@ -26,42 +23,20 @@ export class PromoService {
       '/promotions/';
 
     this.http.get(BACKEND_URL).subscribe((fetchedPromotions: any) => {
-      this.fetchedPromotions.next({
-        basicPromos: fetchedPromotions.basicPromotions,
-        promotions: fetchedPromotions.promotions
-      });
-
-      let promotions: Promotion[];
-
-      // fetchedPromotions.basicPromotions.forEach((basicPromo: Promotion) => {
-      //   fetchedPromotions.promotions.forEach((promo: Promotion) => {
-      //     if (promo)
-      //   })
-      // });
+      this.basicPromos.next(fetchedPromotions.basicPromotions);
     });
   }
 
-  getConsumerPromos(consumerId: string) {
+  fetchConsumerPromos(consumerId: string) {
     const BACKEND_URL =
-      this.coreConfig.select((r) => r.environment.api.dev.path) + '/promotions';
+      this.coreConfig.select((r) => r.environment.api.dev.path) +
+      '/promotions/consumer';
 
     console.log('consumerId', consumerId);
     this.http
       .post(BACKEND_URL, { consumerId })
       .subscribe((fetchedPromotions: any) => {
-        // this.fetchedPromotions.next({
-        //   basicPromos: fetchedPromotions.basicPromotions,
-        //   promotions: fetchedPromotions.promotions
-        // });
-
-        // let promotions: Promotion[];
-
-        // fetchedPromotions.basicPromotions.forEach((basicPromo: Promotion) => {
-        //   fetchedPromotions.promotions.forEach((promo: Promotion) => {
-        //     if (promo)
-        //   })
-        // });
-        console.log(fetchedPromotions);
+        this.consumerPromos.next(fetchedPromotions.promotions);
       });
   }
 
@@ -71,10 +46,10 @@ export class PromoService {
       '/promotions/';
 
     let promoData = {
+      ...promo,
       consumerId,
-      ...promo
+      basicPromo: false
     };
-    console.log(promoData);
 
     this.http
       .post<{ message: string; promo: Promotion }>(BACKEND_URL, promoData)
@@ -82,5 +57,44 @@ export class PromoService {
         console.log(responseData);
         this.router.navigate(['/consumer']);
       });
+  }
+
+  updatePromo(consumerId: string, promo: Promotion) {
+    const BACKEND_URL =
+      this.coreConfig.select((r) => r.environment.api.dev.path) +
+      '/promotions/';
+
+    let promoData = {
+      ...promo,
+      consumerId,
+      basicPromo: false
+    };
+    console.log(promoData);
+
+    this.http
+      .put<{ message: string; promo: Promotion }>(BACKEND_URL, promoData)
+      .subscribe((responseData) => {
+        this.router.navigate(['/consumer']);
+
+        return this.fetchConsumerPromos(consumerId);
+      });
+  }
+
+  deletePromo(consumerId: string, promo: Promotion) {
+    const BACKEND_URL =
+      this.coreConfig.select((r) => r.environment.api.dev.path) +
+      '/promotions/';
+
+    let promoData = {
+      ...promo,
+      consumerId,
+      basicPromo: false
+    };
+    console.log(promoData);
+
+    // this.http.delete(BACKEND_URL, promoData).subscribe((responseData) => {
+    //   console.log(responseData);
+    //   this.router.navigate(['/consumer']);
+    // });
   }
 }

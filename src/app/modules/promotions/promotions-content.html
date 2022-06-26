@@ -1,9 +1,11 @@
 <h1 mat-dialog-title>Choose promo type and configure for consumer</h1>
 <mat-accordion>
-  <ng-container *ngFor="let promo of basicPromotions">
+  <ng-container *ngFor="let promo of promotions">
     <app-promo
       [promo]="promo"
+      (addPromo)="onAddPromo($event)"
       (updatedPromo)="onUpdatePromo($event)"
+      (deletePromo)="onDeletePromo($event)"
     ></app-promo>
   </ng-container>
 </mat-accordion>

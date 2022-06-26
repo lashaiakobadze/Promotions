@@ -38,23 +38,20 @@
             consumer.country + " | " + consumer.city + " | " + consumer.address
           }}
         </mat-panel-description>
+        <app-promotions-modal
+          [modalTitle]="'Promotions'"
+          [consumer]="consumer"
+        ></app-promotions-modal>
       </mat-card>
     </mat-card>
 
     <mat-action-row *ngIf="userIsAuthenticated && userId === consumer.creator">
-      <app-promotions-modal
-        [routerLink]="['', consumer.id]"
-        [modalTitle]="'Promotions'"
-        [consumer]="consumer"
-      ></app-promotions-modal>
-      <div>
-        <a mat-button color="primary" [routerLink]="['edit', consumer.id]"
-          >EDIT</a
-        >
-        <button mat-button color="warn" (click)="onDelete(consumer.id)">
-          DELETE
-        </button>
-      </div>
+      <a mat-button color="primary" [routerLink]="['edit', consumer.id]"
+        >EDIT Consumer</a
+      >
+      <button mat-button color="warn" (click)="onDelete(consumer.id)">
+        DELETE Consumer
+      </button>
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>

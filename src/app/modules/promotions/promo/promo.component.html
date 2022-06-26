@@ -43,9 +43,24 @@
   </div>
 
   <mat-action-row>
-    <button mat-button color="accent" (click)="onUpdatedPromo(promo)">
-      {{ "Configure " + promo.promoType }}
-    </button>
+    <ng-container *ngIf="promo.promoCount">
+      <button mat-button color="accent" (click)="onUpdatedPromo(promo)">
+        {{ "Update " + promo.promoType }}
+      </button>
+    </ng-container>
+
+    <ng-container *ngIf="!promo.promoCount">
+      <button mat-button color="accent" (click)="onAddPromo(promo)">
+        {{ "Add " + promo.promoType }}
+      </button>
+    </ng-container>
+
+    <ng-container *ngIf="promo.promoCount">
+      <button mat-button color="warn" (click)="onDeletePromo(promo)">
+        Delete
+      </button>
+    </ng-container>
+
     <button mat-button color="primary" (click)="nextStep()">Cancel</button>
   </mat-action-row>
 </mat-expansion-panel>

@@ -59,16 +59,23 @@ export class PromotionsContentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.promoService.getConsumerPromos(this.consumerId);
-    this.promoService.fetchedPromotions.subscribe((fetchedPromotions: any) => {
-      this.promotions = fetchedPromotions.promotions;
-      this.basicPromotions = fetchedPromotions.basicPromos;
+    this.promoService.fetchConsumerPromos(this.consumerId);
+    this.promoService.consumerPromos.subscribe((fetchedPromotions: any) => {
+      this.promotions = fetchedPromotions;
     });
   }
 
   onUpdatePromo(promo: Promotion) {
     this.updatedPromo = promo;
+    this.promoService.updatePromo(this.consumerId, promo);
+  }
+
+  onAddPromo(promo: Promotion) {
     this.promoService.addPromo(this.consumerId, promo);
+  }
+
+  onDeletePromo(promo: Promotion) {
+    this.promoService.deletePromo(this.consumerId, promo);
   }
 
   closeDialog() {

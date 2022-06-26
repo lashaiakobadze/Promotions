@@ -21,6 +21,9 @@ export class PromoComponent implements OnInit {
 
   @Output() updatedPromo: EventEmitter<Promotion> =
     new EventEmitter<Promotion>();
+  @Output() addPromo: EventEmitter<Promotion> = new EventEmitter<Promotion>();
+  @Output() deletePromo: EventEmitter<Promotion> =
+    new EventEmitter<Promotion>();
 
   ngOnInit(): void {
     this.promoCount = this.promo.promoCount;
@@ -39,6 +42,23 @@ export class PromoComponent implements OnInit {
 
     promo.promoCount = this.promoCount;
     this.updatedPromo.emit(promo);
+  }
+
+  onAddPromo(promo: Promotion) {
+    if (typeof this.promoCount !== 'number') {
+      return;
+    }
+
+    if (!this.promoCount) {
+      this.promoCount = 0;
+    }
+
+    promo.promoCount = this.promoCount;
+    this.addPromo.emit(promo);
+  }
+
+  onDeletePromo(promo: Promotion) {
+    this.deletePromo.emit(promo);
   }
 
   setStep(index: number) {
