@@ -6,11 +6,9 @@ const router = express.Router();
 
 router.post("", PromoController.createPromo);
 
-// router.put("/:id", PromoController.updateConsumer);
-
 router.get("", PromoController.getPromotions);
 
-router.get("/:id", PromoController.getPromo);
+router.get("/:id", PromoController.fetchConsumerPromotions);
 
 // router.delete("/:id", checkAuth, PromoController.deletePromo);
 

@@ -18,21 +18,21 @@ var promotions = [
   new Promo({
     promoId: 1,
     promoType: "Freespin",
-    promoCount: 1,
+    promoCount: 0,
     currency: "GEL",
     basicPromo: true
   }),
   new Promo({
     promoId: 2,
     promoType: "Freebet",
-    promoCount: 1,
+    promoCount: 0,
     currency: "GEL",
     basicPromo: true
   }),
   new Promo({
     promoId: 3,
     promoType: "Money",
-    promoCount: 1,
+    promoCount: 0,
     currency: "GEL",
     basicPromo: true
   })

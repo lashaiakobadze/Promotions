@@ -43,6 +43,7 @@
 
     <mat-action-row *ngIf="userIsAuthenticated && userId === consumer.creator">
       <app-promotions-modal
+        [routerLink]="['', consumer.id]"
         [modalTitle]="'Promotions'"
         [consumer]="consumer"
       ></app-promotions-modal>

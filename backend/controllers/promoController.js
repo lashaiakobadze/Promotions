@@ -63,20 +63,24 @@ exports.getPromotions = (req, res, next) => {
     });
 };
 
-exports.getPromo = (req, res, next) => {
-  Promo.findById(req.params.id)
-    .then((promo) => {
-      if (promo) {
-        res.status(200).json(promo);
-      } else {
-        res.status(404).json({ message: "Promo not found!" });
-      }
-    })
-    .catch((error) => {
-      res.status(500).json({
-        message: "Fetching promo failed!"
+exports.fetchConsumerPromotions = (req, res, next) => {
+  console.log("req.body.consumerId", req.params.consumerId);
+  if (req.params.consumerId) {
+    Promo.findById(req.body.consumerId)
+      .then((promos) => {
+        if (promos) {
+          console.log(promos);
+          res.status(200).json(promos);
+        } else {
+          res.status(404).json({ message: "Promo not found!" });
+        }
+      })
+      .catch((error) => {
+        res.status(500).json({
+          message: "Fetching promo failed!"
+        });
       });
-    });
+  }
 };
 
 exports.deletePromo = (req, res, next) => {

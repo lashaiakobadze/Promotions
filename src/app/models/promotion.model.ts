@@ -8,6 +8,7 @@ export class Promotion {
     public promoType: PromoType,
     public promoCount: number,
     public currency?: Currency,
-    public basicPromo?: boolean
+    public basicPromo?: boolean,
+    public _id?: string
   ) {}
 }

@@ -8,7 +8,11 @@ import { Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PromoService {
-  basicPromos = new Subject<Promotion[]>();
+  fetchedPromotions = new Subject<{
+    basicPromos: Promotion[];
+    promotions: Promotion[];
+  }>();
+  promotions = new Subject<Promotion[]>();
 
   constructor(
     private http: HttpClient,
@@ -22,8 +26,43 @@ export class PromoService {
       '/promotions/';
 
     this.http.get(BACKEND_URL).subscribe((fetchedPromotions: any) => {
-      this.basicPromos.next(fetchedPromotions.basicPromotions);
+      this.fetchedPromotions.next({
+        basicPromos: fetchedPromotions.basicPromotions,
+        promotions: fetchedPromotions.promotions
+      });
+
+      let promotions: Promotion[];
+
+      // fetchedPromotions.basicPromotions.forEach((basicPromo: Promotion) => {
+      //   fetchedPromotions.promotions.forEach((promo: Promotion) => {
+      //     if (promo)
+      //   })
+      // });
     });
+  }
+
+  getConsumerPromos(consumerId: string) {
+    const BACKEND_URL =
+      this.coreConfig.select((r) => r.environment.api.dev.path) + '/promotions';
+
+    console.log('consumerId', consumerId);
+    this.http
+      .post(BACKEND_URL, { consumerId })
+      .subscribe((fetchedPromotions: any) => {
+        // this.fetchedPromotions.next({
+        //   basicPromos: fetchedPromotions.basicPromotions,
+        //   promotions: fetchedPromotions.promotions
+        // });
+
+        // let promotions: Promotion[];
+
+        // fetchedPromotions.basicPromotions.forEach((basicPromo: Promotion) => {
+        //   fetchedPromotions.promotions.forEach((promo: Promotion) => {
+        //     if (promo)
+        //   })
+        // });
+        console.log(fetchedPromotions);
+      });
   }
 
   addPromo(consumerId: string, promo: Promotion) {
@@ -31,14 +70,9 @@ export class PromoService {
       this.coreConfig.select((r) => r.environment.api.dev.path) +
       '/promotions/';
 
-    let promoData: Promotion;
-
-    promoData = {
+    let promoData = {
       consumerId,
-      promoId: promo.promoId,
-      promoType: promo.promoType,
-      promoCount: promo.promoCount,
-      currency: promo.currency
+      ...promo
     };
     console.log(promoData);
 

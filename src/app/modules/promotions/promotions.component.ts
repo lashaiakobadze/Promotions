@@ -47,6 +47,7 @@ export class PromotionsContentComponent implements OnInit {
   updatedPromo: Promotion = null;
   PROMO_TYPE = PromoType;
   promotions: Promotion[];
+  basicPromotions: Promotion[];
 
   constructor(
     public modal: MatDialog,
@@ -58,16 +59,16 @@ export class PromotionsContentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.promoService.getBasicPromos();
-    this.promoService.basicPromos.subscribe((promotions: any) => {
-      this.promotions = promotions;
+    // this.promoService.getConsumerPromos(this.consumerId);
+    this.promoService.fetchedPromotions.subscribe((fetchedPromotions: any) => {
+      this.promotions = fetchedPromotions.promotions;
+      this.basicPromotions = fetchedPromotions.basicPromos;
     });
   }
 
   onUpdatePromo(promo: Promotion) {
     this.updatedPromo = promo;
-    console.log(promo);
-    // this.promoService.addPromo(this.consumerId, promo);
+    this.promoService.addPromo(this.consumerId, promo);
   }
 
   closeDialog() {

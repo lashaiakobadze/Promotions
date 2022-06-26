@@ -12,6 +12,7 @@ import { PromoType } from 'src/app/models/promoType.enum';
 export class PromoComponent implements OnInit {
   @Input() promo: Promotion;
 
+  promoCount: number;
   PROMO_TYPE = PromoType;
   CURRENCY = Currency;
   promoImgPath: string;
@@ -22,10 +23,21 @@ export class PromoComponent implements OnInit {
     new EventEmitter<Promotion>();
 
   ngOnInit(): void {
+    this.promoCount = this.promo.promoCount;
     this.promoImgPath = `assets/promotions/${this.promo.promoType}.jpg`;
+    console.log(this.promo);
   }
 
-  onAddPromo(promo: Promotion) {
+  onUpdatedPromo(promo: Promotion) {
+    if (typeof this.promoCount !== 'number') {
+      return;
+    }
+
+    if (!this.promoCount) {
+      this.promoCount = 0;
+    }
+
+    promo.promoCount = this.promoCount;
     this.updatedPromo.emit(promo);
   }
 
@@ -35,5 +47,6 @@ export class PromoComponent implements OnInit {
 
   nextStep() {
     this.step++;
+    this.promoCount = this.promo.promoCount;
   }
 }

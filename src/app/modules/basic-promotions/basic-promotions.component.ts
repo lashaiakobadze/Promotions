@@ -13,8 +13,8 @@ export class BasicPromotionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.promoService.getBasicPromos();
-    this.promoService.basicPromos.subscribe((promotions: any) => {
-      this.promotions = promotions;
+    this.promoService.fetchedPromotions.subscribe((fetchedPromotions: any) => {
+      this.promotions = fetchedPromotions.basicPromos;
     });
   }
 }

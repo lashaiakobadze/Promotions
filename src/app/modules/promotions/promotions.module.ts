@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
 import {
   PromotionsContentComponent,
   PromotionsComponent
@@ -13,7 +15,7 @@ import { PromoComponent } from './promo/promo.component';
     PromotionsContentComponent,
     PromoComponent
   ],
-  imports: [CommonModule, AngularMaterialModule],
+  imports: [CommonModule, AngularMaterialModule, FormsModule],
   exports: [PromotionsComponent]
 })
 export class PromotionsModule {}
