@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { AuthService } from 'src/app/auth/auth.service';
 import { Consumer } from 'src/app/models/consumer.model';
@@ -15,16 +16,14 @@ import { ConsumerService } from '../../../services/consumer.service';
 export class ConsumerListComponent implements OnInit, OnDestroy {
   consumers: Consumer[] = [];
   isLoading = false;
+  // ToDo: make it also with local storage.
   totalConsumers = 0;
   consumersPerPage = 2;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
   userIsAuthenticated = false;
   userId: string;
-  private consumersSub: Subscription;
-  private authStatusSub: Subscription;
-
-  openDialog = false;
+  private unsubscribe$: Subject<null> = new Subject();
 
   constructor(
     public consumersService: ConsumerService,
@@ -35,8 +34,10 @@ export class ConsumerListComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.consumersService.getConsumers(this.consumersPerPage, this.currentPage);
     this.userId = this.authService.getUserId();
-    this.consumersSub = this.consumersService
+
+    this.consumersService
       .getConsumerUpdateListener()
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe(
         (consumerData: { consumers: Consumer[]; consumerCount: number }) => {
           this.isLoading = false;
@@ -44,10 +45,13 @@ export class ConsumerListComponent implements OnInit, OnDestroy {
           this.consumers = consumerData.consumers;
         }
       );
+
     this.userIsAuthenticated = this.authService.getIsAuth();
-    this.authStatusSub = this.authService
+
+    this.authService
       .getAuthStatusListener()
-      .subscribe((isAuthenticated) => {
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((isAuthenticated: boolean) => {
         this.userIsAuthenticated = isAuthenticated;
         this.userId = this.authService.getUserId();
       });
@@ -75,29 +79,8 @@ export class ConsumerListComponent implements OnInit, OnDestroy {
     );
   }
 
-  onAddPromotion(ConsumerId: string) {
-    this.openDialog = true;
-
-    // this.isLoading = true;
-    // this.consumersService.deleteConsumer(ConsumerId).subscribe(
-    //   () => {
-    //     this.consumersService.getConsumers(
-    //       this.consumersPerPage,
-    //       this.currentPage
-    //     );
-    //   },
-    //   () => {
-    //     this.isLoading = false;
-    //   }
-    // );
-  }
-
-  onPromoAdded() {
-    this.openDialog = false;
-  }
-
   ngOnDestroy() {
-    this.consumersSub.unsubscribe();
-    this.authStatusSub.unsubscribe();
+    this.unsubscribe$.next(void 0);
+    this.unsubscribe$.complete();
   }
 }

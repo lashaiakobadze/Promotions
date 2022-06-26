@@ -8,6 +8,7 @@ import { Promotion } from 'src/app/models/promotion.model';
 })
 export class BasicPromoComponent implements OnInit {
   @Input() promo: Promotion;
+  @Input() userIsAuthenticated: boolean;
 
   promoImgPath: string;
 

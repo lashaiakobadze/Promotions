@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { AuthService } from '../auth.service';
 
@@ -10,18 +11,20 @@ import { AuthService } from '../auth.service';
 })
 export class SignupComponent implements OnInit, OnDestroy {
   isLoading = false;
-  private authStatusSub: Subscription;
+  private unsubscribe$: Subject<null> = new Subject();
 
   constructor(public authService: AuthService) {}
 
   ngOnInit() {
-    this.authStatusSub = this.authService
+    this.authService
       .getAuthStatusListener()
-      .subscribe((authStatus) => {
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((authStatus: boolean) => {
         this.isLoading = false;
       });
   }
 
+  // ToDo: Maybe it would be better with reactive forms.
   onSignup(form: NgForm) {
     if (form.invalid) {
       return;
@@ -31,6 +34,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.authStatusSub.unsubscribe();
+    this.unsubscribe$.next(void 0);
+    this.unsubscribe$.complete();
   }
 }

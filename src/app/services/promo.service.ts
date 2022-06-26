@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { MonoTypeOperatorFunction, Subject } from 'rxjs';
 
 import {
   ApiService,
@@ -14,6 +14,9 @@ import { Promotion } from 'src/app/models/promotion.model';
 
 @Injectable({ providedIn: 'root' })
 export class PromoService {
+  pipe(arg0: MonoTypeOperatorFunction<unknown>) {
+    throw new Error('Method not implemented.');
+  }
   basicPromos = new Subject<Promotion[]>();
   consumerPromos = new Subject<Promotion[]>();
 
@@ -42,9 +45,9 @@ export class PromoService {
       basicPromo: false
     };
 
-    this.apiService.apiCall(ADD_PROMO, promoData).subscribe(() => {
-      this.router.navigate(['/consumer']);
-    });
+    this.apiService
+      .apiCall(ADD_PROMO, promoData)
+      .subscribe(() => this.fetchConsumerPromos(consumerId));
   }
 
   updatePromo(consumerId: string, promo: Promotion) {

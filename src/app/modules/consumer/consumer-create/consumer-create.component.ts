@@ -1,15 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { Subscription } from 'rxjs';
-
-import { ConsumerService } from '../../../services/consumer.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { mimeType } from './mime-type.validator';
+import { ConsumerService } from '../../../services/consumer.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { AppValidators } from 'src/app/shared/validators/app-validators';
 import { Consumer } from 'src/app/models/consumer.model';
-import { CompileShallowModuleMetadata } from '@angular/compiler';
 
 @Component({
   selector: 'app-consumer-create',
@@ -24,7 +23,7 @@ export class ConsumerCreateComponent implements OnInit, OnDestroy {
   mode = 'create';
   localFormError = '';
   private id: string;
-  private authStatusSub: Subscription;
+  private unsubscribe$: Subject<null> = new Subject();
 
   constructor(
     public consumersService: ConsumerService,
@@ -33,47 +32,50 @@ export class ConsumerCreateComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.authStatusSub = this.authService
-      .getAuthStatusListener()
-      .subscribe((authStatus) => {
-        this.isLoading = false;
-      });
-
     this.initForm();
 
-    this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      if (paramMap.has('consumerId')) {
-        this.mode = 'edit';
-        this.id = paramMap.get('consumerId');
-        this.isLoading = true;
+    this.route.paramMap
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((paramMap: ParamMap) => {
+        if (paramMap.has('consumerId')) {
+          this.mode = 'edit';
+          this.id = paramMap.get('consumerId');
+          this.isLoading = true;
 
-        this.consumersService
-          .getConsumer(this.id)
-          .subscribe((consumerData: any) => {
-            this.isLoading = false;
+          this.consumersService
+            .getConsumer(this.id)
+            .subscribe((consumerData: any) => {
+              this.isLoading = false;
 
-            this.consumer = {
-              id: consumerData?._id,
-              firstName: consumerData?.firstName,
-              lastName: consumerData?.lastName,
-              gender: consumerData?.gender,
-              personalNumber: consumerData?.personalNumber,
-              phone: consumerData?.phone,
-              address: consumerData?.address,
-              country: consumerData?.country,
-              city: consumerData?.city,
-              email: consumerData?.email,
-              imagePath: consumerData?.imagePath,
-              creator: consumerData?.creator
-            };
+              this.consumer = {
+                id: consumerData?._id,
+                firstName: consumerData?.firstName,
+                lastName: consumerData?.lastName,
+                gender: consumerData?.gender,
+                personalNumber: consumerData?.personalNumber,
+                phone: consumerData?.phone,
+                address: consumerData?.address,
+                country: consumerData?.country,
+                city: consumerData?.city,
+                email: consumerData?.email,
+                imagePath: consumerData?.imagePath,
+                creator: consumerData?.creator
+              };
 
-            this.initForm(this.consumer);
-          });
-      } else {
-        this.mode = 'create';
-        this.id = null;
-      }
-    });
+              this.initForm(this.consumer);
+            });
+        } else {
+          this.mode = 'create';
+          this.id = null;
+        }
+      });
+
+    this.authService
+      .getAuthStatusListener()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((authStatus: boolean) => {
+        this.isLoading = false;
+      });
   }
 
   onImagePicked(event: Event) {
@@ -157,6 +159,7 @@ export class ConsumerCreateComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.authStatusSub.unsubscribe();
+    this.unsubscribe$.next(void 0);
+    this.unsubscribe$.complete();
   }
 }

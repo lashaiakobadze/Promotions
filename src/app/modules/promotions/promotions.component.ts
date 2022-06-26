@@ -1,17 +1,24 @@
-import { Component, Inject, Input, OnInit, Optional } from '@angular/core';
+import {
+  Component,
+  Inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  Optional
+} from '@angular/core';
 import {
   MatDialog,
   MatDialogRef,
   MAT_DIALOG_DATA
 } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 import { Consumer } from 'src/app/models/consumer.model';
 import { Promotion } from 'src/app/models/promotion.model';
 import { PromoType } from 'src/app/models/promoType.enum';
 import { PromoService } from '../../services/promo.service';
 
-/**
- * @title Modal with header, scrollable content and actions
- */
 @Component({
   selector: 'app-promotions-modal',
   templateUrl: './promotions.component.html'
@@ -40,12 +47,13 @@ export class PromotionsComponent {
 @Component({
   templateUrl: 'promotions-content.html'
 })
-export class PromotionsContentComponent implements OnInit {
+export class PromotionsContentComponent implements OnInit, OnDestroy {
   consumerId: string;
   updatedPromo: Promotion = null;
   PROMO_TYPE = PromoType;
   promotions: Promotion[];
   basicPromotions: Promotion[];
+  private unsubscribe$: Subject<null> = new Subject();
 
   constructor(
     public modal: MatDialog,
@@ -58,9 +66,12 @@ export class PromotionsContentComponent implements OnInit {
 
   ngOnInit(): void {
     this.promoService.fetchConsumerPromos(this.consumerId);
-    this.promoService.consumerPromos.subscribe((fetchedPromotions: any) => {
-      this.promotions = fetchedPromotions;
-    });
+
+    this.promoService.consumerPromos
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((fetchedPromotions: any) => {
+        this.promotions = fetchedPromotions;
+      });
   }
 
   onUpdatePromo(promo: Promotion) {
@@ -78,5 +89,10 @@ export class PromotionsContentComponent implements OnInit {
 
   closeDialog() {
     this.dialogRef.close({ event: 'close', data: this.updatedPromo });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next(void 0);
+    this.unsubscribe$.complete();
   }
 }

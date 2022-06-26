@@ -13,6 +13,12 @@ export function immerReducer<State, Next>(
     produce(state, (draft: State) => callback(draft, next)) as State;
 }
 
+/**
+ * Used to for more immutable state.
+ * @param initialState
+ * @param ons
+ * @returns
+ */
 export function createImmerReducer<State, A extends Action = Action>(
   initialState: State,
   ...ons: ReducerTypes<State, any>[]

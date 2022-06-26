@@ -39,6 +39,9 @@
   </ng-container>
 
   <ng-container *ngFor="let promo of promotions">
-    <app-basic-promo [promo]="promo"></app-basic-promo>
+    <app-basic-promo
+      [promo]="promo"
+      [userIsAuthenticated]="userIsAuthenticated"
+    ></app-basic-promo>
   </ng-container>
 </div>

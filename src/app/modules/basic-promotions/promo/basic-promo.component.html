@@ -19,13 +19,18 @@
     </p>
   </mat-card-content>
 
-  <!-- ToDo: hide this button when user is authenticated and show others. -->
-  <mat-card-actions>
+  <mat-card-actions *ngIf="!userIsAuthenticated">
     <button mat-raised-button color="accent" routerLink="/auth/login">
       Login
     </button>
     <button mat-raised-button color="primary" routerLink="/auth/signup">
       Signup
+    </button>
+  </mat-card-actions>
+
+  <mat-card-actions *ngIf="userIsAuthenticated">
+    <button mat-raised-button color="accent" routerLink="/consumer">
+      Add promo to consumers
     </button>
   </mat-card-actions>
 </mat-card>

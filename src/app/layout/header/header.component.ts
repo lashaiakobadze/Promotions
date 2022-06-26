@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { AuthService } from '../../auth/auth.service';
 
@@ -10,15 +11,16 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   userIsAuthenticated = false;
-  private authListenerSubs: Subscription;
+  private unsubscribe$: Subject<null> = new Subject();
 
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
     this.userIsAuthenticated = this.authService.getIsAuth();
-    this.authListenerSubs = this.authService
+    this.authService
       .getAuthStatusListener()
-      .subscribe((isAuthenticated) => {
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((isAuthenticated: boolean) => {
         this.userIsAuthenticated = isAuthenticated;
       });
   }
@@ -28,6 +30,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.authListenerSubs.unsubscribe();
+    this.unsubscribe$.next(void 0);
+    this.unsubscribe$.complete();
   }
 }
