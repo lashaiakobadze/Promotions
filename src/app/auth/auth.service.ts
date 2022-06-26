@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import { AuthData } from './auth-data.model';
-import { CoreConfig } from '../core/config';
+import { ApiService, CREATE_USER, LOGIN_USER } from '../core/api';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -12,13 +11,9 @@ export class AuthService {
   private token: string;
   private tokenTimer: any;
   private userId: string;
-  private authStatusListener = new Subject<boolean>();
+  private authStatusListener = new BehaviorSubject<boolean>(false);
 
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-    private coreConfig: CoreConfig
-  ) {}
+  constructor(private router: Router, private apiService: ApiService) {}
 
   getToken() {
     return this.token;
@@ -37,52 +32,34 @@ export class AuthService {
   }
 
   createUser(email: string, password: string) {
-    const authData: AuthData = { email: email, password: password };
-    const BACKEND_URL =
-      this.coreConfig.select((r) => r.environment.api.dev.path) + '/user/';
-    this.http.post(BACKEND_URL + '/signup', authData).subscribe(
-      () => {
-        this.router.navigate(['/']);
-      },
-      (error) => {
-        this.authStatusListener.next(false);
-      }
-    );
+    const authData: AuthData = { email, password };
+
+    this.apiService.apiCall(CREATE_USER, authData).subscribe(() => {
+      this.router.navigate(['/']);
+    });
   }
 
   login(email: string, password: string) {
-    const authData: AuthData = { email: email, password: password };
-    const BACKEND_URL =
-      this.coreConfig.select((r) => r.environment.api.dev.path) + '/user/';
+    const authData: AuthData = { email, password };
 
-    this.http
-      .post<{ token: string; expiresIn: number; userId: string }>(
-        BACKEND_URL + '/login',
-        authData
-      )
-      .subscribe(
-        (response) => {
-          const token = response.token;
-          this.token = token;
-          if (token) {
-            const expiresInDuration = response.expiresIn;
-            this.setAuthTimer(expiresInDuration);
-            this.isAuthenticated = true;
-            this.userId = response.userId;
-            this.authStatusListener.next(true);
-            const now = new Date();
-            const expirationDate = new Date(
-              now.getTime() + expiresInDuration * 1000
-            );
-            console.log(expirationDate);
-            this.saveAuthData(token, expirationDate, this.userId);
-            this.router.navigate(['/']);
-          }
-        },
-        (error) => {
-          this.authStatusListener.next(false);
-        }
-      );
+    this.apiService.apiCall(LOGIN_USER, authData).subscribe((response) => {
+      const token = response.token;
+      this.token = token;
+      if (token) {
+        const expiresInDuration = response.expiresIn;
+        this.setAuthTimer(expiresInDuration);
+        this.isAuthenticated = true;
+        this.userId = response.userId;
+        this.authStatusListener.next(true);
+        const now = new Date();
+        const expirationDate = new Date(
+          now.getTime() + expiresInDuration * 1000
+        );
+        console.log(expirationDate);
+        this.saveAuthData(token, expirationDate, this.userId);
+        this.router.navigate(['/']);
+      }
+    });
   }
 
   autoAuthUser() {
@@ -138,9 +115,9 @@ export class AuthService {
       return null;
     }
     return {
-      token: token,
+      token,
       expirationDate: new Date(expirationDate),
-      userId: userId
+      userId
     };
   }
 }

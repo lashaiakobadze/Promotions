@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 /**
- * Translate module for feature use.
+ * Translate module for feature use, When languages will be added.
  */
 export class TranslateBrowserLoader implements TranslateLoader {
   constructor(

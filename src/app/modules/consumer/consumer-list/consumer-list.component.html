@@ -39,6 +39,7 @@
           }}
         </mat-panel-description>
         <app-promotions-modal
+          *ngIf="userIsAuthenticated"
           [modalTitle]="'Promotions'"
           [consumer]="consumer"
         ></app-promotions-modal>

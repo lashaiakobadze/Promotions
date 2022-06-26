@@ -99,10 +99,12 @@ export class ApiService {
         return this.restService.get(url, reqOptions);
       case APIMethod.post:
         return this.restService.post(
-          `${url}ln=${this.language}`,
+          `${url}`, // ln=${this.language} will be added when use languages.
           localArgs,
           reqOptions
         );
+      case APIMethod.put:
+        return this.restService.put(`${url}`, localArgs);
       case APIMethod.delete:
         return this.restService.delete(url, reqOptions);
       default:

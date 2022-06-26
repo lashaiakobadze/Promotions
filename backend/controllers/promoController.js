@@ -39,7 +39,6 @@ exports.updatePromo = (req, res, next) => {
 
   Promo.updateOne({ _id: req.body._id, consumerId: req.body.consumerId }, promo)
     .then((result) => {
-      console.log(result);
       if (result.matchedCount > 0) {
         res.status(200).json({ message: "Promo Update successful!" });
       } else {

@@ -7,7 +7,7 @@ import {
 import { Consumer } from 'src/app/models/consumer.model';
 import { Promotion } from 'src/app/models/promotion.model';
 import { PromoType } from 'src/app/models/promoType.enum';
-import { PromoService } from '../basic-promotions/promo.service';
+import { PromoService } from '../../services/promo.service';
 
 /**
  * @title Modal with header, scrollable content and actions
@@ -32,8 +32,6 @@ export class PromotionsComponent {
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
-      console.log(`Updated result: ${result}`);
-
       this.updatedValue = result?.data;
     });
   }
@@ -80,19 +78,5 @@ export class PromotionsContentComponent implements OnInit {
 
   closeDialog() {
     this.dialogRef.close({ event: 'close', data: this.updatedPromo });
-  }
-
-  step = null;
-
-  setStep(index: number) {
-    this.step = index;
-  }
-
-  nextStep() {
-    this.step++;
-  }
-
-  prevStep() {
-    this.step--;
   }
 }

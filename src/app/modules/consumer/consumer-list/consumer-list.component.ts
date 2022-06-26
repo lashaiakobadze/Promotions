@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Consumer } from 'src/app/models/consumer.model';
 
-import { ConsumerService } from '../consumer.service';
+import { ConsumerService } from '../../../services/consumer.service';
 
 @Component({
   selector: 'app-consumer-list',

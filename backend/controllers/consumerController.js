@@ -53,6 +53,7 @@ exports.updateConsumer = (req, res, next) => {
     imagePath: imagePath,
     creator: req.userData.userId
   });
+
   Consumer.updateOne(
     { _id: req.params.id, creator: req.userData.userId },
     consumer

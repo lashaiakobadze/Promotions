@@ -15,6 +15,10 @@ export class RestService {
     return this.http.post(url, args, reqOptions);
   }
 
+  put(url: string, args?: any, reqOptions?: any) {
+    return this.http.put(url, args, reqOptions);
+  }
+
   delete(url: string, reqOptions?: any) {
     return this.http.delete(url, reqOptions);
   }

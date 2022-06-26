@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Promotion } from 'src/app/models/promotion.model';
-import { PromoService } from './promo.service';
+import { PromoService } from '../../services/promo.service';
 
 @Component({
   selector: 'app-basic-promotions',

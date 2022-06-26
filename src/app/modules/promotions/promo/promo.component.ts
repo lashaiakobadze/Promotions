@@ -28,7 +28,6 @@ export class PromoComponent implements OnInit {
   ngOnInit(): void {
     this.promoCount = this.promo.promoCount;
     this.promoImgPath = `assets/promotions/${this.promo.promoType}.jpg`;
-    console.log(this.promo);
   }
 
   onUpdatedPromo(promo: Promotion) {
