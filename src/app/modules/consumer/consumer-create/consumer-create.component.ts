@@ -87,7 +87,7 @@ export class ConsumerCreateComponent implements OnInit, OnDestroy {
     reader.readAsDataURL(file);
   }
 
-  onSavePost() {
+  onSaveConsumer() {
     if (this.form.invalid) {
       this.localFormError =
         'The form is not fully filled or the photo is missing';
