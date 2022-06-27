@@ -5,7 +5,6 @@ import { takeUntil } from 'rxjs/operators';
 
 import { AuthService } from 'src/app/auth/auth.service';
 import { Consumer } from 'src/app/models/consumer.model';
-
 import { ConsumerService } from '../../../services/consumer.service';
 
 @Component({
@@ -64,19 +63,22 @@ export class ConsumerListComponent implements OnInit, OnDestroy {
     this.consumersService.getConsumers(this.consumersPerPage, this.currentPage);
   }
 
-  onDelete(ConsumerId: string) {
+  onDelete(consumerId: string) {
     this.isLoading = true;
-    this.consumersService.deleteConsumer(ConsumerId).subscribe(
-      () => {
-        this.consumersService.getConsumers(
-          this.consumersPerPage,
-          this.currentPage
-        );
-      },
-      () => {
-        this.isLoading = false;
-      }
-    );
+    this.consumersService
+      .deleteConsumer(consumerId)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(
+        () => {
+          this.consumersService.getConsumers(
+            this.consumersPerPage,
+            this.currentPage
+          );
+        },
+        () => {
+          this.isLoading = false;
+        }
+      );
   }
 
   ngOnDestroy() {
