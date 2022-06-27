@@ -57,11 +57,17 @@ export class PromoComponent implements OnInit {
     }
 
     promo.promoCount = this.promoCount;
-    this.addPromo.emit(promo);
+
+    if (this.promoCount === 0) {
+      this.onDeletePromo(promo);
+    } else {
+      this.addPromo.emit(promo);
+    }
   }
 
   onDeletePromo(promo: Promotion) {
     this.promoCount = 0;
+    promo.promoCount = this.promoCount;
     this.onUpdatedPromo(promo);
   }
 
