@@ -17,9 +17,16 @@ import { ErrorInterceptor } from './error-interceptor';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './layout/header/header.component';
+import { FooterComponent } from './layout/footer/footer.component';
 import { ErrorComponent } from './error/error.component';
+
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, ErrorComponent],
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    FooterComponent,
+    ErrorComponent
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
