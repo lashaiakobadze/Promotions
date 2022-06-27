@@ -1,4 +1,37 @@
 const Consumer = require("../models/consumerModel");
+const multer = require("multer");
+const sharp = require("sharp");
+
+const multerStorage = multer.memoryStorage();
+
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith("image")) {
+    cb(null, true);
+  } else {
+    cb(new AppError("Not an image! Please upload only images.", 404), false);
+  }
+};
+
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter
+});
+
+exports.uploadUserPhoto = upload.single("image");
+
+exports.resizeUser = async (req, res, next) => {
+  if (!req.file) return next();
+
+  req.file.filename = `user-${req.body.id}-${Date.now()}.jpeg`;
+
+  await sharp(req.file.buffer)
+    .resize(240, 240)
+    .toFormat("jpeg")
+    .jpeg({ quality: 90 })
+    .toFile(`backend/images/${req.file.filename}`);
+
+  next();
+};
 
 exports.createConsumer = (req, res, next) => {
   const url = req.protocol + "://" + req.get("host");
