@@ -1,5 +1,28 @@
 # Promotions
 
+## How to run the project
+
+1. Install [node.js](https://nodejs.org/en/download/) in your
+   system.
+
+2. Install [mongoDB](https://www.mongodb.com/) in your system.
+
+3. Run mongoDB server by running the mongodb application file in the
+   installed mongoDB directory.
+
+4. To start the application dependencies, open the terminal, go to the
+   root folder of the application / repository and then type command
+   **npm install**.
+
+5. To run application server, in the terminal, at the root folder of
+   application,type command **npm run start:server**.
+
+6. If you are running application for the first time then you need some
+   dummy promotions entered. For this purpose, you need to run **npm run save_basic_promotions**.
+
+7. Now to use the system, open any browser and visit
+   http://localhost:4200/
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.2.
 
 ## Development server
