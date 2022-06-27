@@ -22,6 +22,8 @@ export class ConsumerListComponent implements OnInit, OnDestroy {
   pageSizeOptions = [1, 2, 5, 10];
   userIsAuthenticated = false;
   userId: string;
+  public filterByNameData = null;
+  public filterByPromoData = null;
   private unsubscribe$: Subject<null> = new Subject();
 
   constructor(

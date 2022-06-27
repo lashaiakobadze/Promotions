@@ -1,6 +1,31 @@
 <mat-spinner *ngIf="isLoading"></mat-spinner>
 <mat-accordion multi="true" *ngIf="consumers.length > 0 && !isLoading">
-  <ng-container *ngFor="let consumer of consumers">
+  <mat-card class="example-card">
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        placeholder="{{ 'Search consumer by name' | translate }}"
+        [(ngModel)]="filterByNameData"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        placeholder="{{ 'Search consumer by promo' | translate }}"
+        [(ngModel)]="filterByPromoData"
+      />
+    </mat-form-field>
+  </mat-card>
+
+  <ng-container
+    *ngFor="
+      let consumer of consumers
+        | filterByName: filterByNameData
+        | filterByPromo: filterByPromoData
+    "
+  >
     <app-consumer
       [consumer]="consumer"
       [userId]="userId"
