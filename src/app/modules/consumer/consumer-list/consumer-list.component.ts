@@ -15,7 +15,6 @@ import { ConsumerService } from '../../../services/consumer.service';
 export class ConsumerListComponent implements OnInit, OnDestroy {
   consumers: Consumer[] = [];
   isLoading = false;
-  // ToDo: make it also with local storage.
   totalConsumers = 0;
   consumersPerPage = 2;
   currentPage = 1;
@@ -35,6 +34,8 @@ export class ConsumerListComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.consumersService.getConsumers(this.consumersPerPage, this.currentPage);
     this.userId = this.authService.getUserId();
+
+    this.getLocalData();
 
     this.consumersService
       .getConsumerUpdateListener()
@@ -58,11 +59,43 @@ export class ConsumerListComponent implements OnInit, OnDestroy {
       });
   }
 
+  getLocalData() {
+    if (localStorage.getItem('currentPage')) {
+      this.currentPage = JSON.parse(localStorage.getItem('currentPage'));
+    }
+
+    if (localStorage.getItem('pageSizeOptions')) {
+      this.pageSizeOptions = JSON.parse(
+        localStorage.getItem('pageSizeOptions')
+      );
+    }
+
+    if (localStorage.getItem('consumersPerPage')) {
+      this.consumersPerPage = JSON.parse(
+        localStorage.getItem('consumersPerPage')
+      );
+    }
+  }
+
+  setLocalData() {
+    localStorage.setItem('currentPage', JSON.stringify(this.currentPage));
+    localStorage.setItem(
+      'pageSizeOptions',
+      JSON.stringify(this.pageSizeOptions)
+    );
+    localStorage.setItem(
+      'consumersPerPage',
+      JSON.stringify(this.consumersPerPage)
+    );
+  }
+
   onChangedPage(pageData: PageEvent) {
     this.isLoading = true;
     this.currentPage = pageData.pageIndex + 1;
     this.consumersPerPage = pageData.pageSize;
     this.consumersService.getConsumers(this.consumersPerPage, this.currentPage);
+
+    this.setLocalData();
   }
 
   onDelete(consumerId: string) {
