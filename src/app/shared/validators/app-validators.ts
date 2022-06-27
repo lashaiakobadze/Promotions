@@ -53,7 +53,7 @@ export class AppValidators extends NGValidators {
       : undefined;
   }
 
-  // ToDo: fix type of bug.
+  // ToDo: fix type of bug and updated relative inputs.
   static number(control: AbstractControl): ValidationErrors | null {
     return typeof control.value === 'number'
       ? { value: 'Please enter number' }

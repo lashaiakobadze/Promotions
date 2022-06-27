@@ -82,10 +82,6 @@ export class PromotionsContentComponent implements OnInit, OnDestroy {
     this.promoService.addPromo(this.consumerId, promo);
   }
 
-  onDeletePromo(promo: Promotion) {
-    this.promoService.deletePromo(this.consumerId, promo);
-  }
-
   closeDialog() {
     this.dialogRef.close({ event: 'close', data: this.updatedPromo });
   }

@@ -109,7 +109,6 @@ export class ConsumerService {
       };
     }
 
-    // ToDo: make it with apiCall, Should be added formData configuration in core.
     this.http.put(updateUrl, consumerData).subscribe(() => {
       this.router.navigate(['/consumer']);
     });

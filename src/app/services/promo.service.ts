@@ -7,7 +7,6 @@ import {
   ADD_PROMO,
   BASIC_PROMOTIONS,
   CONSUMER_PROMOTIONS,
-  DELETE_PROMO,
   UPDATE_PROMO
 } from '../core/api';
 import { Promotion } from 'src/app/models/promotion.model';
@@ -59,20 +58,6 @@ export class PromoService {
 
     this.apiService
       .apiCall(UPDATE_PROMO, promoData)
-      .subscribe(() => this.fetchConsumerPromos(consumerId));
-  }
-
-  // ToDo delete.
-  deletePromo(consumerId: string, promo: Promotion) {
-    const promoData = {
-      ...promo,
-      consumerId,
-      basicPromo: false
-    };
-    console.log(promoData);
-
-    this.apiService
-      .apiCall(DELETE_PROMO, consumerId.toString())
       .subscribe(() => this.fetchConsumerPromos(consumerId));
   }
 }

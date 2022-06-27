@@ -28,13 +28,6 @@ export const UPDATE_PROMO: APIEndpoint = {
   authorization: true
 };
 
-export const DELETE_PROMO: APIEndpoint = {
-  api: 'promotions',
-  method: APIMethod.delete,
-  mock: [''],
-  authorization: true
-};
-
 export const GET_CONSUMER: APIEndpoint = {
   api: 'consumers/{{id}}',
   method: APIMethod.get,
