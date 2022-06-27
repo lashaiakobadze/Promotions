@@ -9,7 +9,7 @@
         [(ngModel)]="filterByNameData"
       />
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field *ngIf="userIsAuthenticated">
       <input
         matInput
         type="text"

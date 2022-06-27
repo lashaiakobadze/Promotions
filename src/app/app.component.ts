@@ -7,7 +7,6 @@ import { AuthService } from './auth/auth.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  // ToDo: add footer.
   constructor(private authService: AuthService) {}
 
   ngOnInit() {

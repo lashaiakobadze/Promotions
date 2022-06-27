@@ -132,12 +132,14 @@ export class ConsumerCreateComponent implements OnInit, OnDestroy {
       personalNumber: new FormControl(consumer?.personalNumber || null, [
         AppValidators.required,
         AppValidators.minLength(11),
-        AppValidators.maxLength(11)
+        AppValidators.maxLength(11),
+        AppValidators.pattern('^[0-9]*$', 'only number')
       ]),
       phone: new FormControl(consumer?.phone || null, [
         AppValidators.required,
         AppValidators.minLength(9),
-        AppValidators.maxLength(9)
+        AppValidators.maxLength(9),
+        AppValidators.pattern('^[0-9]*$', 'only number')
       ]),
       address: new FormControl(consumer?.address || null, [
         AppValidators.required

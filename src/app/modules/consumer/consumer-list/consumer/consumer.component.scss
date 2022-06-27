@@ -11,9 +11,6 @@ mat-panel-description {
   text-align: center;
 }
 
-.consumer-image {
-}
-
 .consumer-image img {
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
 }
@@ -24,4 +21,8 @@ mat-panel-description {
 
 .mat-action-row {
   padding: 4px 24px;
+}
+
+.mat-expansion-panel {
+  margin: 1px 0;
 }
