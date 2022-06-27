@@ -37,10 +37,6 @@ export class PromotionsComponent {
     const dialogRef = this.modal.open(PromotionsContentComponent, {
       data: { pageValue: this.sendValue }
     });
-
-    dialogRef.afterClosed().subscribe((result: any) => {
-      this.updatedValue = result?.data;
-    });
   }
 }
 
@@ -80,10 +76,6 @@ export class PromotionsContentComponent implements OnInit, OnDestroy {
 
   onAddPromo(promo: Promotion) {
     this.promoService.addPromo(this.consumerId, promo);
-  }
-
-  closeDialog() {
-    this.dialogRef.close({ event: 'close', data: this.updatedPromo });
   }
 
   ngOnDestroy(): void {

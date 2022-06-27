@@ -5,8 +5,7 @@ import {
   style,
   transition,
   animation,
-  trigger,
-  state
+  trigger
 } from '@angular/animations';
 
 export const fadeInAnimation = animation(

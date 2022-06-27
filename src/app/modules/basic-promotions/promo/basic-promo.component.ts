@@ -12,8 +12,6 @@ export class BasicPromoComponent implements OnInit {
 
   promoImgPath: string;
 
-  constructor() {}
-
   ngOnInit(): void {
     this.promoImgPath = `assets/promotions/${this.promo.promoType}.jpg`;
   }

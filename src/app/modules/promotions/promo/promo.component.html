@@ -42,7 +42,7 @@
     <mat-radio-group
       aria-label="Select an option"
       required
-      value="promoCurrency"
+      [value]="promoCurrency"
       [(ngModel)]="promoCurrency"
     >
       <mat-radio-button value="GEL"> {{ CURRENCY.GEL }} </mat-radio-button>
