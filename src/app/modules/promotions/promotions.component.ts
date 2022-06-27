@@ -52,7 +52,6 @@ export class PromotionsContentComponent implements OnInit, OnDestroy {
   updatedPromo: Promotion = null;
   PROMO_TYPE = PromoType;
   promotions: Promotion[];
-  basicPromotions: Promotion[];
   private unsubscribe$: Subject<null> = new Subject();
 
   constructor(

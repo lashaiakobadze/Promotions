@@ -19,14 +19,12 @@ var promotions = [
     promoId: 1,
     promoType: "Freespin",
     promoCount: 0,
-    currency: "GEL",
     basicPromo: true
   }),
   new Promo({
     promoId: 2,
     promoType: "Freebet",
     promoCount: 0,
-    currency: "GEL",
     basicPromo: true
   }),
   new Promo({

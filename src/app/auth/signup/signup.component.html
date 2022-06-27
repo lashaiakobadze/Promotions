@@ -1,35 +1,60 @@
 <mat-card>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <form (submit)="onSignup(signupForm)" #signupForm="ngForm" *ngIf="!isLoading">
+  <form [formGroup]="signupForm" (ngSubmit)="onSignup()" *ngIf="!isLoading">
+    <!-- email -->
     <mat-form-field>
       <input
         matInput
         name="email"
-        ngModel
         type="email"
         placeholder="E-Mail"
-        #emailInput="ngModel"
-        required
-        email
+        formControlName="email"
       />
-      <mat-error *ngIf="emailInput.invalid"
-        >Please enter a valid email.</mat-error
-      >
+      <!-- error -->
+      <mat-error *ngIf="get('email').invalid && get('email').touched">
+        <ng-container *ngFor="let errorMessage of errors('email')">
+          <span *ngIf="errorMessage !== true">{{ errorMessage }}</span>
+        </ng-container>
+      </mat-error>
     </mat-form-field>
+
+    <!-- password -->
     <mat-form-field>
       <input
-        type="password"
-        name="password"
-        ngModel
         matInput
+        name="password"
+        type="new-password"
         placeholder="Password"
-        #passwordInput="ngModel"
-        required
+        formControlName="password"
       />
-      <mat-error *ngIf="passwordInput.invalid"
-        >Please enter a valid password.</mat-error
-      >
+      <!-- error -->
+      <mat-error *ngIf="get('password').invalid && get('password').touched">
+        <ng-container *ngFor="let errorMessage of errors('password')">
+          <span *ngIf="errorMessage !== true">{{ errorMessage }}</span>
+        </ng-container>
+      </mat-error>
     </mat-form-field>
+
+    <!-- confirmPassword -->
+    <mat-form-field>
+      <input
+        matInput
+        name="confirmPassword"
+        ngModel
+        type="new-password"
+        placeholder="Confirm Password"
+        formControlName="confirmPassword"
+      />
+      <!-- error -->
+      <mat-error
+        *ngIf="get('confirmPassword').invalid && get('confirmPassword').touched"
+      >
+        <ng-container *ngFor="let errorMessage of errors('confirmPassword')">
+          <span *ngIf="errorMessage !== true">{{ errorMessage }}</span>
+        </ng-container>
+      </mat-error>
+    </mat-form-field>
+
     <button mat-raised-button color="accent" type="submit" *ngIf="!isLoading">
       Signup
     </button>

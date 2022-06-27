@@ -13,6 +13,7 @@ export class PromoComponent implements OnInit {
   @Input() promo: Promotion;
 
   promoCount: number;
+  promoCurrency: Currency;
   PROMO_TYPE = PromoType;
   CURRENCY = Currency;
   promoImgPath: string;
@@ -27,6 +28,7 @@ export class PromoComponent implements OnInit {
 
   ngOnInit(): void {
     this.promoCount = this.promo.promoCount;
+    this.promoCurrency = this.promo?.currency;
     this.promoImgPath = `assets/promotions/${this.promo.promoType}.jpg`;
   }
 
@@ -37,6 +39,10 @@ export class PromoComponent implements OnInit {
 
     if (!this.promoCount) {
       this.promoCount = 0;
+    }
+
+    if (promo?.currency) {
+      promo.currency = this.promoCurrency;
     }
 
     promo.promoCount = this.promoCount;

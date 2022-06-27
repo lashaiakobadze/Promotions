@@ -7,6 +7,7 @@ import { AuthService } from './auth/auth.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  // ToDo: add consumer list filter.
   constructor(private authService: AuthService) {}
 
   ngOnInit() {

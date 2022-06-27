@@ -11,9 +11,14 @@ import { ConsumerCreateComponent } from './consumer-create/consumer-create.compo
 import { ConsumerListComponent } from './consumer-list/consumer-list.component';
 import { ConsumerRoutingModule } from './consumer.routing';
 import { PromotionsModule } from '../promotions/promotions.module';
+import { ConsumerComponent } from './consumer-list/consumer/consumer.component';
 
 @NgModule({
-  declarations: [ConsumerCreateComponent, ConsumerListComponent],
+  declarations: [
+    ConsumerCreateComponent,
+    ConsumerListComponent,
+    ConsumerComponent
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
