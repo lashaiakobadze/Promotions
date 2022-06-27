@@ -62,8 +62,7 @@ export class PromoComponent implements OnInit {
 
   onDeletePromo(promo: Promotion) {
     this.promoCount = 0;
-    promo.promoCount = 0;
-    this.updatedPromo.emit(promo);
+    this.onUpdatedPromo(promo);
   }
 
   setStep(index: number) {

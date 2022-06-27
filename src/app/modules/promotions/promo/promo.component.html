@@ -12,7 +12,8 @@
         "
       >
         {{ promo.promoType + ": " }}
-        <strong>{{ promo.promoCount + " " + promo?.currency }}</strong>
+        <strong>{{ promo.promoCount + " " }}</strong>
+        <strong *ngIf="promo?.currency">{{ " " + promo.currency }}</strong>
       </button>
     </mat-panel-title>
     <mat-panel-description>
@@ -27,6 +28,7 @@
     <input
       matInput
       type="number"
+      min="0"
       name="promoCount"
       [placeholder]="promo.promoType + ' count'"
       required="required"
@@ -61,7 +63,7 @@
       </button>
     </ng-container>
 
-    <ng-container *ngIf="promo.promoCount">
+    <ng-container *ngIf="!promo.basicPromo">
       <button mat-button color="warn" (click)="onDeletePromo(promo)">
         Delete
       </button>

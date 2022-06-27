@@ -37,19 +37,38 @@ exports.updatePromo = (req, res, next) => {
     currency: req.body.currency
   });
 
-  Promo.updateOne({ _id: req.body._id, consumerId: req.body.consumerId }, promo)
-    .then((result) => {
-      if (result.matchedCount > 0) {
-        res.status(200).json({ message: "Promo Update successful!" });
-      } else {
-        res.status(401).json({ message: "Promo Not updated!" });
-      }
-    })
-    .catch((error) => {
-      res.status(500).json({
-        message: "Couldn't update promo!"
+  if (promo.promoCount == 0) {
+    Promo.deleteOne({ _id: req.body._id, consumerId: req.body.consumerId })
+      .then((result) => {
+        if (result.deletedCount > 0) {
+          res.status(200).json({ message: "Deletion successful!" });
+        } else {
+          res.status(401).json({ message: "Not authorized!" });
+        }
+      })
+      .catch((error) => {
+        res.status(500).json({
+          message: "Deleting promotions failed!"
+        });
       });
-    });
+  } else if (promo.promoCount > 0) {
+    Promo.updateOne(
+      { _id: req.body._id, consumerId: req.body.consumerId },
+      promo
+    )
+      .then((result) => {
+        if (result.matchedCount > 0) {
+          res.status(200).json({ message: "Promo Update successful!" });
+        } else {
+          res.status(401).json({ message: "Promo Not updated!" });
+        }
+      })
+      .catch((error) => {
+        res.status(500).json({
+          message: "Couldn't update promo!"
+        });
+      });
+  }
 };
 
 exports.getBasicPromotions = (req, res, next) => {
