@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -9,7 +15,8 @@ import { PromoService } from '../../services/promo.service';
 @Component({
   selector: 'app-basic-promotions',
   templateUrl: './basic-promotions.component.html',
-  styleUrls: ['./basic-promotions.component.scss']
+  styleUrls: ['./basic-promotions.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BasicPromotionsComponent implements OnInit, OnDestroy {
   promotions: Promotion[];
@@ -18,7 +25,8 @@ export class BasicPromotionsComponent implements OnInit, OnDestroy {
 
   constructor(
     private authService: AuthService,
-    private promoService: PromoService
+    private promoService: PromoService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -28,6 +36,7 @@ export class BasicPromotionsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((fetchedPromotions: any) => {
         this.promotions = fetchedPromotions;
+        this.cdr.markForCheck();
       });
 
     this.authService
@@ -35,6 +44,7 @@ export class BasicPromotionsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((isAuthenticated: boolean) => {
         this.userIsAuthenticated = isAuthenticated;
+        this.cdr.markForCheck();
       });
   }
 

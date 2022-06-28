@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
+} from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -10,7 +16,8 @@ import { ConsumerService } from '../../../services/consumer.service';
 @Component({
   selector: 'app-consumer-list',
   templateUrl: './consumer-list.component.html',
-  styleUrls: ['./consumer-list.component.scss']
+  styleUrls: ['./consumer-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConsumerListComponent implements OnInit, OnDestroy {
   consumers: Consumer[] = [];
@@ -27,7 +34,8 @@ export class ConsumerListComponent implements OnInit, OnDestroy {
 
   constructor(
     public consumersService: ConsumerService,
-    private authService: AuthService
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -45,6 +53,7 @@ export class ConsumerListComponent implements OnInit, OnDestroy {
           this.isLoading = false;
           this.totalConsumers = consumerData.consumerCount;
           this.consumers = consumerData.consumers;
+          this.cdr.markForCheck();
         }
       );
 
@@ -56,6 +65,7 @@ export class ConsumerListComponent implements OnInit, OnDestroy {
       .subscribe((isAuthenticated: boolean) => {
         this.userIsAuthenticated = isAuthenticated;
         this.userId = this.authService.getUserId();
+        this.cdr.markForCheck();
       });
   }
 

@@ -1,4 +1,6 @@
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Inject,
   Input,
@@ -41,7 +43,8 @@ export class PromotionsComponent {
 }
 
 @Component({
-  templateUrl: 'promotions-content.html'
+  templateUrl: 'promotions-content.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PromotionsContentComponent implements OnInit, OnDestroy {
   consumerId: string;
@@ -54,7 +57,8 @@ export class PromotionsContentComponent implements OnInit, OnDestroy {
     public modal: MatDialog,
     public dialogRef: MatDialogRef<PromotionsComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
-    private promoService: PromoService
+    private promoService: PromoService,
+    private cdr: ChangeDetectorRef
   ) {
     this.consumerId = data.pageValue;
   }
@@ -66,6 +70,8 @@ export class PromotionsContentComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((fetchedPromotions: any) => {
         this.promotions = fetchedPromotions;
+
+        this.cdr.markForCheck();
       });
   }
 
