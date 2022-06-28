@@ -4,11 +4,11 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { mimeType } from './mime-type.validator';
 import { ConsumerService } from '../../../services/consumer.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { AppValidators } from 'src/app/shared/validators/app-validators';
 import { Consumer } from 'src/app/models/consumer.model';
+import { mimeType } from 'src/app/shared/validators/mime-type.validator';
 
 @Component({
   selector: 'app-consumer-create',
