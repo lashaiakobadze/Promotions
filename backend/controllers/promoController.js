@@ -1,6 +1,6 @@
-const Promo = require("../models/promoModel");
+import Promo from "../models/promoModel";
 
-exports.createPromo = (req, res, next) => {
+export const createPromo = (req, res, next) => {
   const promo = new Promo({
     promoId: req.body.promoId,
     consumerId: req.body.consumerId,
@@ -27,7 +27,7 @@ exports.createPromo = (req, res, next) => {
     });
 };
 
-exports.updatePromo = (req, res, next) => {
+export const updatePromo = (req, res, next) => {
   const promo = new Promo({
     _id: req.body._id,
     promoId: req.body.promoId,
@@ -71,7 +71,7 @@ exports.updatePromo = (req, res, next) => {
   }
 };
 
-exports.getBasicPromotions = (req, res, next) => {
+export const getBasicPromotions = (req, res, next) => {
   const promoQuery = Promo.find();
   let fetchedPromotions;
   /**
@@ -107,7 +107,7 @@ exports.getBasicPromotions = (req, res, next) => {
     });
 };
 
-exports.fetchConsumerPromotions = (req, res, next) => {
+export const fetchConsumerPromotions = (req, res, next) => {
   let allPromotion;
   let basicPromotions;
   let consumerPromotions = [];
@@ -153,7 +153,7 @@ exports.fetchConsumerPromotions = (req, res, next) => {
     });
 };
 
-exports.deletePromo = (req, res, next) => {
+export const deletePromo = (req, res, next) => {
   Promo.deleteOne({ _id: req.body._id, consumerId: req.body.consumerId })
     .then((result) => {
       if (result.deletedCount > 0) {

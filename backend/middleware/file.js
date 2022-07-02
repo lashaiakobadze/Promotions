@@ -1,4 +1,4 @@
-const multer = require("multer");
+import multer from "multer";
 
 const MIME_TYPE_MAP = {
   "image/png": "png",
@@ -6,7 +6,7 @@ const MIME_TYPE_MAP = {
   "image/jpg": "jpg"
 };
 
-const storage = multer.diskStorage({
+export const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const isValid = MIME_TYPE_MAP[file.mimetype];
     let error = new Error("Invalid mime type");
@@ -22,4 +22,4 @@ const storage = multer.diskStorage({
   }
 });
 // ToDo: Should be added image resize.
-module.exports = multer({ storage: storage }).single("image");
+// module.exports = multer({ storage: storage }).single("image");

@@ -1,5 +1,6 @@
-var Promo = require("../models/promoModel");
-var mongoose = require("mongoose");
+import mongoose from "mongoose";
+import Promo from "../models/promoModel";
+
 mongoose.Promise = global.Promise;
 mongoose
   .connect("mongodb://localhost:27017/Promotions", {
@@ -36,8 +37,8 @@ var promotions = [
   })
 ];
 
-//save function is asynchronous
-//so we need to check all items are saved before we disconnect to db
+// save function is asynchronous
+// so we need to check all items are saved before we disconnect to db
 let done = 0;
 for (const promo of promotions) {
   promo.save(function (err, result) {

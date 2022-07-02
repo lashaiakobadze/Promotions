@@ -1,9 +1,8 @@
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import User from "../models/user";
 
-const User = require("../models/user");
-
-exports.createUser = (req, res, next) => {
+export const createUser = (req, res, next) => {
   bcrypt.hash(req.body.password, 10).then((hash) => {
     const user = new User({
       email: req.body.email,
@@ -25,7 +24,7 @@ exports.createUser = (req, res, next) => {
   });
 };
 
-exports.userLogin = (req, res, next) => {
+export const userLogin = (req, res, next) => {
   let fetchedUser;
   User.findOne({ email: req.body.email })
     .then((user) => {

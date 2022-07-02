@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const promoSchema = mongoose.Schema({
   promoId: { type: Number },
@@ -9,4 +9,4 @@ const promoSchema = mongoose.Schema({
   basicPromo: { type: Boolean }
 });
 
-module.exports = mongoose.model("Promo", promoSchema);
+export default mongoose.model("Promo", promoSchema);

@@ -1,13 +1,10 @@
-const express = require("express");
+import express from "express";
+import { checkAuth } from "../middleware/check-auth";
+import * as ConsumerController from "../controllers/consumerController";
 
-const ConsumerController = require("../controllers/consumerController");
+export const consumerRouter = express.Router();
 
-const checkAuth = require("../middleware/check-auth");
-const extractFile = require("../middleware/file");
-
-const router = express.Router();
-
-router.post(
+consumerRouter.post(
   "",
   checkAuth,
   ConsumerController.uploadUserPhoto,
@@ -15,7 +12,7 @@ router.post(
   ConsumerController.createConsumer
 );
 
-router.put(
+consumerRouter.put(
   "/:id",
   checkAuth,
   ConsumerController.uploadUserPhoto,
@@ -23,10 +20,8 @@ router.put(
   ConsumerController.updateConsumer
 );
 
-router.get("", ConsumerController.getConsumers);
+consumerRouter.get("", ConsumerController.getConsumers);
 
-router.get("/:id", ConsumerController.getConsumer);
+consumerRouter.get("/:id", ConsumerController.getConsumer);
 
-router.delete("/:id", checkAuth, ConsumerController.deleteConsumer);
-
-module.exports = router;
+consumerRouter.delete("/:id", checkAuth, ConsumerController.deleteConsumer);

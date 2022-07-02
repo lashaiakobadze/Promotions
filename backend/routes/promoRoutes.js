@@ -1,18 +1,19 @@
-const express = require("express");
+import express from "express";
+import { checkAuth } from "../middleware/check-auth";
+import * as PromoController from "../controllers/promoController";
 
-const checkAuth = require("../middleware/check-auth");
-const PromoController = require("../controllers/promoController");
+export const promoRouter = express.Router();
 
-const router = express.Router();
+promoRouter.get("", PromoController.getBasicPromotions);
 
-router.get("", PromoController.getBasicPromotions);
+promoRouter.post("", checkAuth, PromoController.createPromo);
 
-router.post("", checkAuth, PromoController.createPromo);
+promoRouter.put("", checkAuth, PromoController.updatePromo);
 
-router.put("", checkAuth, PromoController.updatePromo);
+promoRouter.post(
+  "/consumer",
+  checkAuth,
+  PromoController.fetchConsumerPromotions
+);
 
-router.post("/consumer", checkAuth, PromoController.fetchConsumerPromotions);
-
-router.delete("", checkAuth, PromoController.deletePromo);
-
-module.exports = router;
+promoRouter.delete("", checkAuth, PromoController.deletePromo);

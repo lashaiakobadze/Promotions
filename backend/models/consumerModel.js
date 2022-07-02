@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-const consumerSchema = mongoose.Schema({
+export const consumerSchema = mongoose.Schema({
   consumerId: { type: Number },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
@@ -15,4 +15,4 @@ const consumerSchema = mongoose.Schema({
   creator: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }
 });
 
-module.exports = mongoose.model("Consumer", consumerSchema);
+export default mongoose.model("Consumer", consumerSchema);

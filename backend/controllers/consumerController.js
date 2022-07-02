@@ -1,6 +1,6 @@
-const Consumer = require("../models/consumerModel");
-const multer = require("multer");
-const sharp = require("sharp");
+import multer from "multer";
+import sharp from "sharp";
+import Consumer from "../models/consumerModel";
 
 const multerStorage = multer.memoryStorage();
 
@@ -17,9 +17,9 @@ const upload = multer({
   fileFilter: multerFilter
 });
 
-exports.uploadUserPhoto = upload.single("image");
+export const uploadUserPhoto = upload.single("image");
 
-exports.resizeUser = async (req, res, next) => {
+export const resizeUser = async (req, res, next) => {
   if (!req.file) return next();
 
   req.file.filename = `user-${req.body.id}-${Date.now()}.jpeg`;
@@ -33,7 +33,7 @@ exports.resizeUser = async (req, res, next) => {
   next();
 };
 
-exports.createConsumer = (req, res, next) => {
+export const createConsumer = (req, res, next) => {
   const url = req.protocol + "://" + req.get("host");
   const consumer = new Consumer({
     firstName: req.body.firstName,
@@ -66,7 +66,7 @@ exports.createConsumer = (req, res, next) => {
     });
 };
 
-exports.updateConsumer = (req, res, next) => {
+export const updateConsumer = (req, res, next) => {
   let imagePath = req.body.imagePath;
   if (req.file) {
     const url = req.protocol + "://" + req.get("host");
@@ -105,7 +105,7 @@ exports.updateConsumer = (req, res, next) => {
     });
 };
 
-exports.getConsumers = (req, res, next) => {
+export const getConsumers = (req, res, next) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
   const consumerQuery = Consumer.find();
@@ -132,7 +132,7 @@ exports.getConsumers = (req, res, next) => {
     });
 };
 
-exports.getConsumer = (req, res, next) => {
+export const getConsumer = (req, res, next) => {
   Consumer.findById(req.params.id)
     .then((consumer) => {
       if (consumer) {
@@ -148,7 +148,7 @@ exports.getConsumer = (req, res, next) => {
     });
 };
 
-exports.deleteConsumer = (req, res, next) => {
+export const deleteConsumer = (req, res, next) => {
   Consumer.deleteOne({ _id: req.params.id, creator: req.userData.userId })
     .then((result) => {
       if (result.deletedCount > 0) {

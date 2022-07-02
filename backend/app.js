@@ -1,11 +1,11 @@
-const path = require("path");
-const express = require("express");
-const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
+import path from "path";
+import express from "express";
+import bodyParser from "body-parser";
+import mongoose from "mongoose";
 
-const userRoutes = require("./routes/user");
-const consumerRoutes = require("./routes/consumerRoutes");
-const promoRoutes = require("./routes/promoRoutes");
+import { userRouter } from "./routes/user";
+import { consumerRouter } from "./routes/consumerRoutes";
+import { promoRouter } from "./routes/promoRoutes";
 
 const app = express();
 
@@ -41,8 +41,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/api/user", userRoutes);
-app.use("/api/consumers", consumerRoutes);
-app.use("/api/promotions", promoRoutes);
+app.use("/api/user", userRouter);
+app.use("/api/consumers", consumerRouter);
+app.use("/api/promotions", promoRouter);
 
-module.exports = app;
+export default app;
