@@ -1,28 +1,12 @@
-import multer from "multer";
 import sharp from "sharp";
 import Consumer from "../models/consumerModel";
 
-const multerStorage = multer.memoryStorage();
+export const resizeConsumerFile = async (req, res, next) => {
+  const consumerId = req.body.id;
 
-const multerFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith("image")) {
-    cb(null, true);
-  } else {
-    cb(new AppError("Not an image! Please upload only images.", 404), false);
-  }
-};
-
-const upload = multer({
-  storage: multerStorage,
-  fileFilter: multerFilter
-});
-
-export const uploadUserPhoto = upload.single("image");
-
-export const resizeUser = async (req, res, next) => {
   if (!req.file) return next();
 
-  req.file.filename = `user-${req.body.id}-${Date.now()}.jpeg`;
+  req.file.filename = `user-${consumerId}-${Date.now()}.jpeg`;
 
   await sharp(req.file.buffer)
     .resize(240, 240)
